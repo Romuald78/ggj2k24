@@ -56,10 +56,12 @@ class Page0Intro:
             self.gfx[self.index][0].draw()
 
     def onKeyEvent(self, key, isPressed):
-        self.__goto_splash_screen()
+        if isPressed:
+            self.__goto_splash_screen()
 
     def onButtonEvent(self, gamepadNum, buttonName, isPressed):
-        self.__goto_splash_screen()
+        if isPressed:
+            self.__goto_splash_screen()
 
     def onAxisEvent(self, gamepadNum, axisName, analogValue):
         pass
@@ -68,5 +70,6 @@ class Page0Intro:
         pass
 
     def onMouseButtonEvent(self, x, y, buttonNum, isPressed):
-        self.__goto_splash_screen()
+        if isPressed:
+            self.__goto_splash_screen()
 

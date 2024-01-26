@@ -10,14 +10,44 @@ class Page2Select:
         self.process.selectPage(1)
 
     def __add_player(self, ctrl):
-        if not ctrl in self.ctrls:
-            self.ctrls[ctrl] = {} # TODO init player data
+        if ctrl in self.ctrls:
+            if not self.ctrls[ctrl]['ready']:
+                self.ctrls[ctrl]['ready'] = True
+            else:
+                # check all others ready
+                go = True
+                for ctrl in self.ctrls:
+                    go = go and self.ctrls[ctrl]['ready']
+                if go:
+                    self.process.selectPage(3, self.ctrls)
+        else:
+            id = 0
+            if ctrl == Constants.KEYBOARD_CTRL:
+                id = 2
+            elif ctrl == Constants.MOUSE_CTRL:
+                id = 1
+            params = {
+                "filePath"  : "resources/gui/controllers.png",
+                "size"      : (200, 100),
+                "position"  : (self.W / 2, 0),
+                "spriteBox" : (1, 3, 200, 100),
+                "startIndex": id,
+                "endIndex"  : id
+            }
+            spr = Gfx.create_animated(params)
+            self.ctrls[ctrl] = {
+                'gfx' : spr,
+                'ready': False
+            }
 
     def __remove_player(self, ctrl):
         if ctrl in self.ctrls:
-            del self.ctrls[ctrl]
-            if len(self.ctrls) == 0:
-                self.__back_to_splash()
+            if self.ctrls[ctrl]['ready']:
+                self.ctrls[ctrl]['ready'] = False
+            else:
+                del self.ctrls[ctrl]
+                if len(self.ctrls) == 0:
+                    self.__back_to_splash()
 
     def __change_player_left(self, ctrl):
         if ctrl in self.ctrls:
@@ -54,13 +84,20 @@ class Page2Select:
         self.refresh()
 
     def on_update(self, deltaTime):
-        # print("------------------------")
-        # for ctrl in self.ctrls:
-        #     print(ctrl)
-        pass
+        x = self.W / 2
+        y = 3 * self.H / 4
+        for ctrl in self.ctrls:
+            self.ctrls[ctrl]['gfx'].center_y = y
+            if self.ctrls[ctrl]['ready']:
+                self.ctrls[ctrl]['gfx'].color = (0, 255, 0)
+            else:
+                self.ctrls[ctrl]['gfx'].color = (255, 255, 255)
+            y -= 100
 
     def draw(self):
         self.gfx.draw()
+        for ctrl in self.ctrls:
+            self.ctrls[ctrl]['gfx'].draw()
 
     def onKeyEvent(self, key, isPressed):
         if isPressed:
@@ -84,7 +121,7 @@ class Page2Select:
         if axisName == "X":
             if analogValue <= -0.5:
                 self.__change_player_left(gamepadNum)
-            elif analogValue >= 0.5
+            elif analogValue >= 0.5:
                 self.__change_player_right(gamepadNum)
 
     def onMouseMotionEvent(self, x, y, dx, dy):
