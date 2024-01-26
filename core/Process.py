@@ -6,6 +6,7 @@ import arcade.key
 from .classes.constants import Constants
 from .pages.page_0_intro import Page0Intro
 from .pages.page_1_splash import Page1Splash
+from .pages.page_2_select import Page2Select
 from .utils.utils import Text
 
 
@@ -36,6 +37,8 @@ class Process:
         # Instanciate all pages
         self.pages.append(Page0Intro (self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.window, self))
         self.pages.append(Page1Splash(self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.window, self))
+        self.pages.append(Page2Select(self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.window, self))
+
         # Set first page
         self.pageIndex = 0
         self.currentPage = self.pages[self.pageIndex]
@@ -152,6 +155,7 @@ class Process:
     # ====================================================================================================
     def onMouseButtonEvent(self, x, y, buttonNum, isPressed):
         try:
+            print(buttonNum)
             self.currentPage.onMouseButtonEvent(x, y, buttonNum, isPressed)
         except Exception as ex:
             print(f"[ERROR] process mouse button event : {ex}")

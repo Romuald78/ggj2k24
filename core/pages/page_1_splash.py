@@ -6,6 +6,9 @@ from core.utils.utils import Gfx
 
 class Page1Splash:
 
+    def __go_to_select(self, ctrl):
+        self.process.selectPage(2, {'ctrl': ctrl})
+
     def __init__(self, w, h, window: arcade.Window, process=None):
         super().__init__()
         self.window = window
@@ -34,10 +37,12 @@ class Page1Splash:
         self.gfx.draw()
 
     def onKeyEvent(self, key, isPressed):
-        pass
+        if isPressed:
+            self.__go_to_select(Constants.KEYBOARD_CTRL)
 
     def onButtonEvent(self, gamepadNum, buttonName, isPressed):
-        pass
+        if isPressed:
+            self.__go_to_select(gamepadNum)
 
     def onAxisEvent(self, gamepadNum, axisName, analogValue):
         pass
@@ -46,5 +51,7 @@ class Page1Splash:
         pass
 
     def onMouseButtonEvent(self, x, y, buttonNum, isPressed):
-        pass
+        if isPressed:
+            self.__go_to_select(Constants.MOUSE_CTRL)
+
 
