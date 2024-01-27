@@ -75,7 +75,10 @@ class Map:
                 dx = item['posx'] * self.backhouse.width
                 x  = dx + self.__x0
                 y  = dy + self.__y0
-                itm = Item(item['name'], x0=x, y0=y, ratio=self.__ratio)
+                itm = Item(item['name'],
+                           x0=x, y0=y,
+                           ratio=self.__ratio,
+                           init_type=item['init_type'])
                 self.items[item['posz']].append(itm)
 
 
@@ -111,6 +114,7 @@ class Map:
         return self.__cat_start
 
     def process_player(self, p):
+        # Block player according to wall positions
         for wall in self.walls:
 
             if Collisions.AABBs( (p.left    , p.top),
@@ -123,6 +127,17 @@ class Map:
                 else:
                     unionx = wall.right - p.left
                 p.shift(unionx, 0)
+
+        # Highlight items according to player type and position
+        for layer in self.items:
+            for itm in self.items[layer]:
+                if itm.can_interact(p):
+                    itm.highlight(False)
+                    if Collisions.AABBs( (p.left   , p.top),
+                                         (p.right  , p.bottom),
+                                         (itm.left , itm.top),
+                                         (itm.right, itm.bottom) ):
+                        itm.highlight(True)
 
     def draw_background(self):
         self.backhouse.draw()
