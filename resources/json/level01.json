@@ -29,7 +29,7 @@
         }
       ],
       "stairs": [
-        {"id":"b1","posx" : 0.12,"dest": "b2","width":0.05}
+        {"id":"b1","posx" : 0.366,"dest": "b2","width":0.05}
       ],
       "items": [
         {"name": "chaussures", "posx": 0.717, "posz": "back"},
@@ -37,7 +37,7 @@
         {"name": "ficus", "posx": 0.262, "posz":  "back"},
         {"name": "gamelle", "posx": 0.638, "posz":  "back"},
         {"name": "table", "posx": 0.569, "posz":  "back"},
-        {"name": "télé", "posx": 0.176, "posz":  "back"},
+        {"name": "tele", "posx": 0.176, "posz":  "back"},
         {"name": "fauteuil", "posx": 0.120, "posz":  "front"}
       ]
     },
@@ -54,7 +54,7 @@
         }
       ],
       "stairs": [
-        {"id":"b2","posx" : 0.12,"dest": "b1","width":0.05},
+        {"id":"b2","posx" : 0.366,"dest": "b1","width":0.05},
         {"id":"b3","posx" : 0.75,"dest": "b4","width":0.05}
       ],
       "items": []
