@@ -46,12 +46,12 @@ class Person:
         return self._y - self._h / 2
 
     @property
-    def y(self):
-        return self._y
-
-    @property
     def ctrl(self):
         return self._ctrl
+
+    @property
+    def width(self):
+        return self._idle_L.width
 
     def freeze(self):
         self._moveable = False
@@ -101,12 +101,9 @@ class Person:
 
         if Constants.DEBUG:
             arcade.draw_rectangle_outline(
-                self._x, self._y, self._w, self._h, (255, 255, 0, 128), 5
-            )
-            arcade.draw_rectangle_outline(
                 (self.left + self.right) / 2,
                 (self.top + self.bottom) / 2,
-                self.right - self.left,
+                self.width * (1 - Constants.ITEM_HITBOX_COEF),
                 self.top-self.bottom, (0,0,255,128), 2
 
             )

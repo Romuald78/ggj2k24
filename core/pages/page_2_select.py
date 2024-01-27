@@ -38,13 +38,13 @@ class Page2Select:
             }
             spr = Gfx.create_animated(params)
             params = {
-                "filePath"  : "resources/characters/select_human.png",
+                "filePath"  : "resources/gui/select_human.png",
                 "size"      : (200, 200),
                 "position"  : (self.W / 2, 0)
             }
             hum = Gfx.create_fixed(params)
             params = {
-                "filePath"  : "resources/characters/select_cat.png",
+                "filePath"  : "resources/gui/select_cat.png",
                 "size"      : (200, 200),
                 "position"  : (self.W / 2, 0)
             }
@@ -180,14 +180,15 @@ class Page2Select:
         pass
 
     def onMouseButtonEvent(self, x, y, buttonNum, isPressed):
-        if isPressed:
-            if buttonNum == 1:
-                self.__add_player(Constants.MOUSE_CTRL)
-            elif buttonNum == 4:
-                self.__remove_player(Constants.MOUSE_CTRL)
-            elif buttonNum == 8:
-                self.__change_player_left(Constants.MOUSE_CTRL)
-            elif buttonNum == 16:
-                self.__change_player_right(Constants.MOUSE_CTRL)
+        pass
+        # if isPressed:
+        #     if buttonNum == 1:
+        #         self.__add_player(Constants.MOUSE_CTRL)
+        #     elif buttonNum == 4:
+        #         self.__remove_player(Constants.MOUSE_CTRL)
+        #     elif buttonNum == 8:
+        #         self.__change_player_left(Constants.MOUSE_CTRL)
+        #     elif buttonNum == 16:
+        #         self.__change_player_right(Constants.MOUSE_CTRL)
 
 

@@ -283,8 +283,13 @@ def main():
     file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '')
     os.chdir(file_path)
 
-    game = MyGame(int(1920*0.66), int(1080*0.66), 1.0, TITLE)
-    game.set_fullscreen(False)
+    coef = 1.0
+    full = True
+    if "-window" in sys.argv:
+        coef = 0.66
+        full = False
+    game = MyGame(int(1920 * coef), int(1080 * coef), 1.0, TITLE)
+    game.set_fullscreen(full)
     game.setup()
     arcade.run()
 

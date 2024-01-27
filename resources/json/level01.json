@@ -18,7 +18,7 @@
   "floors": [
     {
       "name"  : "ground",
-      "posy"  : 0.07407407407407407,
+      "posy"  : 0.070 ,
       "height": 0.227777778,
       "walls" : [
         {
@@ -32,49 +32,49 @@
         {"id":"b1","posx" : 0.366,"dest": "b2","width":0.05}
       ],
       "items": [
-        {"name": "chaussures", "posx": 0.717, "posz": "back", "qte": "bar-easy"  },
-        {"name": "evier", "posx": 0.500, "posz":  "back", "qte": "bar-medium" },
-        {"name": "ficus", "posx": 0.262, "posz":  "back" , "qte": "bar-hard"},
-        {"name": "gamelle", "posx": 0.638, "posz":  "back"},
-        {"name": "table", "posx": 0.569, "posz":  "back"},
-        {"name": "tele", "posx": 0.176, "posz":  "back"},
-        {"name": "fauteuil", "posx": 0.120, "posz":  "front"}
+        {"name": "frigo"     , "posx": 0.560, "posz": "back" , "init_type": ""},
+        {"name": "tele"      , "posx": 0.190, "posz": "back" , "init_type": "cat", "qte": "bar-hard"},
+        {"name": "chaussures", "posx": 0.717, "posz": "back" , "init_type": "cat", "qte": "bar-medium"},
+        {"name": "evier"     , "posx": 0.520, "posz": "back" , "init_type": "cat", "qte": "bar-easy"},
+        {"name": "ficus"     , "posx": 0.280, "posz": "back" , "init_type": "cat", "qte": "bar-medium"},
+        {"name": "gamelle"   , "posx": 0.410, "posz": "back" , "init_type": "cat", "qte": "bar-easy"},
+        {"name": "table"     , "posx": 0.635, "posz": "back" , "init_type": "cat", "qte": "bar-medium"},
+        {"name": "fauteuil"  , "posx": 0.140, "posz": "front", "init_type": "cat", "qte": "bar-hard"}
       ]
     },
     {
       "name"  : "floor_1",
-      "posy"  : 0.30185185185185187,
+      "posy"  : 0.31585185185185187,
       "height": 0.23,
       "walls" : [
-        {
-          "posx" : 0.0546875
-        },
-        {
-          "posx" : 0.8833333333333333
-        }
+        { "posx" : 0.0546875 },
+        { "posx" : 0.8833333 }
       ],
       "stairs": [
         {"id":"b2","posx" : 0.366,"dest": "b1","width":0.05},
         {"id":"b3","posx" : 0.75,"dest": "b4","width":0.05}
       ],
-      "items": []
+      "items": [
+        {"name": "armoire", "posx": 0.480, "posz": "back" , "init_type": ""},
+        {"name": "lit"    , "posx": 0.600, "posz": "back" , "init_type": "cat"},
+        {"name": "lavabo" , "posx": 0.260, "posz": "back" , "init_type": "cat"},
+        {"name": "douche" , "posx": 0.143, "posz": "back" , "init_type": "cat"}
+      ]
     },
     {
       "name": "floor_2",
-      "posy"  : 0.5314814814814814,
+      "posy"  : 0.545,
       "height": 0.23,
       "walls": [
-        {
-          "posx" : 0.0546875
-        },
-        {
-          "posx" : 0.807
-        }
+        { "posx" : 0.0546875 },
+        { "posx" : 0.807 }
       ],
       "stairs": [
         {"id":"b4","posx" : 0.75,"dest": "b3","width":0.05}
       ],
-      "items": []
+      "items": [
+        {"name": "litiere", "posx": 0.390, "posz": "back" , "init_type": "cat"}
+      ]
     }
   ]
 }

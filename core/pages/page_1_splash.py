@@ -51,7 +51,8 @@ class Page1Splash:
         pass
 
     def onMouseButtonEvent(self, x, y, buttonNum, isPressed):
-        if isPressed:
-            self.__go_to_select(Constants.MOUSE_CTRL)
+        pass
+        # if isPressed:
+        #     self.__go_to_select(Constants.MOUSE_CTRL)
 
 
