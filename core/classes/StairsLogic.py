@@ -48,5 +48,6 @@ def processStairsAction(stairs, player):
                 print("stairs " + stair.id + " to " + stair.dest_id)
                 # move player to dest_id
                 player.tp(stair.dest_x, stair.dest_y)
-                return
+                return True
+    return False
 

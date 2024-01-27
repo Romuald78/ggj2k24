@@ -47,6 +47,8 @@ def notifyQTEInteraction(qteSTates, player):
                     print("QTE failed - missed")
                     player.free()
                     qte.active = False
+            return True
+    return False
 
 
 def qteBuilder(qteStates, x, y,itm, qteType):

@@ -81,7 +81,7 @@ class Map:
                            init_type=item['init_type'])
                 self.items[item['posz']].append(itm)
                 if item.get("qte", None) is not None:
-                    qteBuilder(self.qte, x, y+h+10,itm,item['qte'])
+                    qteBuilder(self.qte, x, y+h-(0.07*self.backhouse.height),itm,item['qte'])
 
 
         # START POSITIONS
