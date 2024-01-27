@@ -4,6 +4,7 @@ import arcade
 import json
 
 from core.classes.People import Person, Human, Cat
+from core.classes.StairsLogic import processStairs
 from core.classes.constants import Constants
 from core.classes.map import Map
 from core.utils.utils import Gfx
@@ -46,7 +47,7 @@ class Page3InGame:
                     if args[ctrl]['choice'] == "human":
                         x = human_start[0] + (random() - 0.5) * human_start[2]
                         y = human_start[1]
-                        p = Human(ctrl, x0=x, y0=y)
+                        p = Human(ctrl, x0=x, y0=y, ratio=self.map.ratio)
                     elif args[ctrl]['choice'] == "cat":
                         x = cat_start[0] + (random() - 0.5) * cat_start[2]
                         y = cat_start[1]
@@ -65,6 +66,8 @@ class Page3InGame:
             # [TODO] This method also checks if the player can interact with items
             # If true, the related item is highlighted
             self.map.process_player(p)
+
+            #processStairs(self.map.stairs,p)
 
     def draw(self):
         # Background

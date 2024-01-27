@@ -4,6 +4,7 @@ from random import random
 from core.classes.constants import Constants
 from core.classes.wall import Wall
 from core.utils.utils import Gfx, Collisions
+from core.classes.Stairs import Stairs
 
 
 class Map:
@@ -18,11 +19,16 @@ class Map:
         # Start positions
         self.__human_start = {}
         self.__cat_start = {}
+        self.__ratio = 1.0
 
         # get config
         fp = open(cfg_filepath)
         cfg = json.load(fp)
         fp.close()
+
+        # Get ratio
+        self._ratio = max( self.W / cfg['width'],
+                           self.H / cfg['height'] )
 
         # BACKGROUND
         params = {
@@ -38,6 +44,7 @@ class Map:
 
         # WALLS (blocking)
         self.walls = []
+        self.stairs = []
         for floor in cfg['floors']:
             h  = floor['height'] * self.backhouse.height
             dy = floor['posy'] * self.backhouse.height
@@ -45,9 +52,18 @@ class Map:
                 dx = wall['posx'] * self.backhouse.width
                 x  = dx + self.__x0
                 y  = dy + self.__y0
-                w  = 0.009375 * self.backhouse.width
+                w  = 0.015 * self.backhouse.width
                 y += h / 2
                 self.walls.append( Wall(x, y, w, h) )
+            for stair in floor.get('stairs', []):
+                dx = stair['posx'] * self.backhouse.width
+                x  = dx + self.__x0
+                y  = dy + self.__y0
+                w  = stair.get("width",0.1) * self.backhouse.width
+                y += h / 2
+                self.stairs.append( Stairs(x, y, w, h,stair['id'],stair['dest']) )
+
+
 
         # START POSITIONS
         hx = cfg['human_start']['posx']
@@ -69,6 +85,10 @@ class Map:
         self.__cat_start = (cx, cy, cr)
 
     @property
+    def ratio(self):
+        return self._ratio
+
+    @property
     def human_start_pix(self):
         return self.__human_start
 
@@ -79,10 +99,6 @@ class Map:
     def process_player(self, p):
         for wall in self.walls:
 
-            if wall.x >= 1100 and wall.x <= 1150:
-                print(p.left, p.right, p.top, p.bottom)
-                print(wall.left, wall.right, wall.top, wall.bottom)
-                print()
             if Collisions.AABBs( (p.left    , p.top),
                                  (p.right   , p.bottom),
                                  (wall.left , wall.top),
@@ -99,5 +115,7 @@ class Map:
         if Constants.DEBUG:
             for w in self.walls:
                 w.debug_draw()
+            for s in self.stairs:
+                s.debug_draw()
 
 

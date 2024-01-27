@@ -15,5 +15,5 @@ class Constants:
     KEYBOARD_CTRL = -1
 
     # MOVE SPEEDS
-    HUMAN_SPEED = 1500  # pixels/seconds
-    CAT_SPEED   = 1500  # pixels/seconds
+    HUMAN_SPEED = 750  # pixels/seconds
+    CAT_SPEED   = 750  # pixels/seconds

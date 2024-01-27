@@ -79,20 +79,27 @@ class Person:
         if self._move_right:
             self._x += self._speed * deltaTime
 
+    # y est le pied du personnage (au dol)
+    def tp(self, x, y):
+        self._x = x
+        self._y = y + self._h / 2
+
     def draw(self):
         # update gfx position according to model position
         self._idle_L.center_x = self._x
         self._idle_R.center_x = self._x
+        self._idle_L.center_y = self._y
+        self._idle_R.center_y = self._y
 
         if Constants.DEBUG:
             arcade.draw_rectangle_outline(
-                self._x, self._y+self._h/2, self._w, self._h, (0, 0, 0), 5
+                self._x, self._y, self._w, self._h, (255, 255, 0, 128), 5
             )
             arcade.draw_rectangle_outline(
                 (self.left + self.right) / 2,
                 (self.top + self.bottom) / 2,
                 self.right - self.left,
-                self.top-self.bottom, (0,0,0), 10
+                self.top-self.bottom, (0,0,255,128), 2
 
             )
         # STATIC DISPLAY
@@ -115,7 +122,7 @@ class Person:
 
 class Human(Person):
 
-    def __init__(self, ctrl, x0=0, y0=0):
+    def __init__(self, ctrl, x0=0, y0=0, ratio=1.0):
         super().__init__(ctrl, Constants.HUMAN_SPEED, x0, y0)
         params = {
             "filePath": "resources/characters/vieux.png",
@@ -125,10 +132,11 @@ class Human(Person):
             "endIndex": 0,
         }
         self._idle_R = Gfx.create_animated(params)
-        self._idle_R.center_y += self._idle_R.height / 2
         params['flipH'] = True
         self._idle_L = Gfx.create_animated(params)
-        self._idle_L.center_y += self._idle_L.height / 2
+        self._idle_L.scale = ratio
+        self._idle_R.scale = ratio
+        self.shift(0, self._idle_R.height / 2)
 
         # update _w _h
         self._w = self._idle_L.width
