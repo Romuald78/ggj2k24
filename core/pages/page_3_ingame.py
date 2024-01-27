@@ -51,7 +51,7 @@ class Page3InGame:
                     elif args[ctrl]['choice'] == "cat":
                         x = cat_start[0] + (random() - 0.5) * cat_start[2]
                         y = cat_start[1]
-                        p = Cat(ctrl, x0=x, y0=y)
+                        p = Cat(ctrl, x0=x, y0=y, ratio=self.map.ratio)
                     # add person to the people list
                     self.people.append(p)
 
@@ -94,9 +94,19 @@ class Page3InGame:
             print(p)
 
     def onAxisEvent(self, gamepadNum, axisName, analogValue):
-        p = self.__find_player(gamepadNum)
-        if p is not None:
-            print(p)
+        if axisName == "X":
+            p = self.__find_player(gamepadNum)
+            if p is not None:
+                if analogValue <= -0.5:
+                    p.move_left (True)
+                    p.move_right(False)
+                elif analogValue >= 0.5:
+                    p.move_left (False)
+                    p.move_right(True)
+                else:
+                    p.move_left (False)
+                    p.move_right(False)
+
 
     def onMouseMotionEvent(self, x, y, dx, dy):
         p = self.__find_player(Constants.MOUSE_CTRL)
