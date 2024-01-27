@@ -55,6 +55,12 @@ class Person:
     def width(self):
         return self._idle_L.width
 
+    def freeze(self):
+        self._moveable = False
+
+    def free(self):
+        self._moveable = True
+
     def shift(self, dx, dy):
         self._x += dx
         self._y += dy
@@ -78,6 +84,10 @@ class Person:
         self._idle_R.update_animation(deltaTime)
         self._move_L.update_animation(deltaTime)
         self._move_R.update_animation(deltaTime)
+
+        if not self._moveable:
+            return
+
         if self._move_left:
             self._x -= self._speed * deltaTime
         if self._move_right:
@@ -198,8 +208,6 @@ class Cat(Person):
         # update _w _h
         self._w = self._idle_L.width
         self._h = self._idle_L.height
-
-
 
     def draw(self):
         # Draw specific parts

@@ -1,5 +1,6 @@
 import json
 
+from core.classes.QTELogic import qteBuilder
 from core.classes.item import Item
 from core.classes.QTEBarState import QTEBarState
 from core.classes.constants import Constants
@@ -52,7 +53,6 @@ class Map:
                        "back" : []}
         # QTE
         self.qte = []
-        self.qte.append(QTEBarState(200,200,True,8,0.1,0.2))
 
         for floor in cfg['floors']:
             h  = floor['height'] * self.backhouse.height
@@ -80,6 +80,8 @@ class Map:
                            ratio=self.__ratio,
                            init_type=item['init_type'])
                 self.items[item['posz']].append(itm)
+                if item.get("qte", None) is not None:
+                    qteBuilder(self.qte, x, y+h-(0.07*self.backhouse.height),itm,item['qte'])
 
 
         # START POSITIONS

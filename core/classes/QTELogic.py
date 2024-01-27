@@ -1,5 +1,9 @@
+import random
 import time
 import arcade
+
+from core.classes.QTEBarState import QTEBarState
+from core.utils.utils import Collisions
 
 # Constants for the QTE bar display px
 QTE_BAR_WIDTH = 200
@@ -17,30 +21,60 @@ class QTEBarState:
         self.maxProgress = maxProgress
         """
 
-#first interaction start the QTE then the bar apears and the player has to press the button once it either fails or succeeds then QTE is over
+
+# first interaction start the QTE then the bar apears and the player has to press the button once it either fails or succeeds then QTE is over
 def notifyQTEInteraction(qteSTates, player):
     for qte in qteSTates:
-        #TODO here check player on QTE object interaction
-        """
         if Collisions.AABBs((player.left, player.top),
                             (player.right, player.bottom),
-                            (stair.left, stair.top),
-                            (stair.right, stair.bottom)):
-        """
-        if qte.active == False:
-            #update the state
-            qte.active = True
-            #TODO freeze the player
-            qte.startTimer = time.time()
-            print("QTE started")
-        else: #qte is active
-            #check if the player succeded
-            if qte.currentBarProgress >= qte.minProgress and qte.currentBarProgress <= qte.maxProgress:
-                print("QTE success")
-                qte.active = False
+                            (qte.item.left, qte.item.top),
+                            (qte.item.right, qte.item.bottom)):
+            if qte.active == False:
+                # update the state
+                qte.active = True
+                qte.currentPlayer = player
+                player.freeze()
+                qte.startTimer = time.time()
+                print("QTE started")
+            # qte is active
             else:
-                print("QTE failed - missed")
-                qte.active = False
+                # check if the player succeded
+                if qte.minProgress <= qte.currentBarProgress <= qte.maxProgress:
+                    print("QTE success")
+                    player.free()
+                    qte.active = False
+                else:
+                    print("QTE failed - missed")
+                    player.free()
+                    qte.active = False
+            return True
+    return False
+
+
+def qteBuilder(qteStates, x, y,itm, qteType):
+    # Define the size of the win area for each difficulty level
+    win_area_sizes = {
+        "bar-easy": 0.30,  # 30% of the bar
+        "bar-medium": 0.20,  # 20% of the bar
+        "bar-hard": 0.10  # 10% of the bar
+    }
+
+    # Ensure the qteType is valid
+    if qteType in win_area_sizes:
+        # Determine the size of the win area for the given difficulty
+        win_area_size = win_area_sizes[qteType]
+
+        # Randomly select the start point of the win area, ensuring there's enough room for the win area
+        win_area_start = random.uniform(0, 1 - win_area_size)
+
+        # Calculate the end point of the win area
+        win_area_end = win_area_start + win_area_size
+
+        # Append the new QTEBarState with the calculated win area
+        qteStates.append(QTEBarState(x, y, itm, 4, win_area_start, win_area_end))
+    else:
+        print(f"Unknown qteType: {qteType}")
+
 
 def qteDraw(qteSTates):
     for qte in qteSTates:
@@ -53,8 +87,9 @@ def qteDraw(qteSTates):
 
             qte.currentBarProgress += 0.01 * qte.direction  # Adjust the step size as needed
 
-            if(qte.startTimer + qte.timeout) < time.time():
+            if (qte.startTimer + qte.timeout) < time.time():
                 print("QTE failed - timeout")
+                qte.currentPlayer.free()
                 qte.active = False
 
             BAR_X = qte.x
@@ -69,7 +104,8 @@ def qteDraw(qteSTates):
             arcade.draw_rectangle_filled(BAR_X, BAR_Y, QTE_BAR_WIDTH, QTE_BAR_HEIGHT, arcade.color.GRAY)
 
             # Draw the QTE "win area" as a green rectangle
-            arcade.draw_rectangle_filled(BAR_X + win_area_left + (win_area_width/2), BAR_Y, win_area_right - win_area_left, QTE_BAR_HEIGHT,
+            arcade.draw_rectangle_filled(BAR_X + win_area_left + (win_area_width / 2), BAR_Y,
+                                         win_area_right - win_area_left, QTE_BAR_HEIGHT,
                                          arcade.color.GREEN)
 
             # Calculate the cursor position based on current progress
@@ -77,5 +113,3 @@ def qteDraw(qteSTates):
 
             # Draw the QTE cursor at the specified position (cursor_x, BAR_Y)
             arcade.draw_rectangle_filled(cursor_x, BAR_Y, QTE_CURSOR_WIDTH, QTE_BAR_HEIGHT, arcade.color.RED)
-
-

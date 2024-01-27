@@ -92,8 +92,8 @@ class Page3InGame:
                 p.move_right(isPressed)
             elif not isPressed and key == arcade.key.SPACE:
                 #other interactive
-                processStairsAction(self.map.stairs, p)
-                notifyQTEInteraction(self.map.qte, p)
+                if not processStairsAction(self.map.stairs, p):
+                    notifyQTEInteraction(self.map.qte, p)
 
 
     def onButtonEvent(self, gamepadNum, buttonName, isPressed):
