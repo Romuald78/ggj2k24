@@ -1,6 +1,7 @@
 import json
 from random import random
 
+from core.classes.item import Item
 from core.classes.constants import Constants
 from core.classes.wall import Wall
 from core.utils.utils import Gfx, Collisions
@@ -27,8 +28,8 @@ class Map:
         fp.close()
 
         # Get ratio
-        self._ratio = max( self.W / cfg['width'],
-                           self.H / cfg['height'] )
+        self.__ratio = max( self.W / cfg['width'],
+                            self.H / cfg['height'] )
 
         # BACKGROUND
         params = {
@@ -44,7 +45,12 @@ class Map:
 
         # WALLS (blocking)
         self.walls = []
+        # STAIRS
         self.stairs = []
+        # ITEMS
+        self.items  = {"front": [],
+                       "back" : []}
+
         for floor in cfg['floors']:
             h  = floor['height'] * self.backhouse.height
             dy = floor['posy'] * self.backhouse.height
@@ -62,7 +68,12 @@ class Map:
                 w  = stair.get("width",0.1) * self.backhouse.width
                 y += h / 2
                 self.stairs.append( Stairs(x, y - (h / 4), w, (h / 2),stair['id'],stair['dest']) )
-
+            for item in floor['items']:
+                dx = item['posx'] * self.backhouse.width
+                x  = dx + self.__x0
+                y  = dy + self.__y0
+                itm = Item(item['name'], x0=x, y0=y, ratio=self.__ratio)
+                self.items[item['posz']].append(itm)
 
 
         # START POSITIONS
@@ -86,7 +97,7 @@ class Map:
 
     @property
     def ratio(self):
-        return self._ratio
+        return self.__ratio
 
     @property
     def human_start_pix(self):
@@ -118,4 +129,6 @@ class Map:
             for s in self.stairs:
                 s.debug_draw()
 
-
+    def draw_items(self, layer):
+        for itm in self.items[layer]:
+            itm.draw()

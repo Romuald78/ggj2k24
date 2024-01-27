@@ -72,12 +72,12 @@ class Page3InGame:
         # Background
         self.map.draw_background()
         # Draw back items
-        # TODO
+        self.map.draw_items("back")
         # Draw players
         for p in self.people:
             p.draw()
         # Draw front items
-        # TODO
+        self.map.draw_items("front")
 
     def onKeyEvent(self, key, isPressed):
         p = self.__find_player(Constants.KEYBOARD_CTRL)
@@ -117,7 +117,7 @@ class Page3InGame:
             print(p)
 
     def onMouseButtonEvent(self, x, y, buttonNum, isPressed):
-        if Constants.DEBUG:
+        if Constants.DEBUG and isPressed:
             xp = x / self.W
             yp = y / self.H
             print(f"x={x} ({xp}%) y={y} ({yp}%)")

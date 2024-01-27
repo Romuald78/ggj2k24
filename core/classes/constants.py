@@ -3,7 +3,7 @@
 class Constants:
 
     # PROGRAM PARAMETERS
-    DEBUG = False
+    DEBUG = True
 
     # INTRO TIME
     TIME_GGJ = 8
