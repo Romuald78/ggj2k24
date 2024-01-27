@@ -1,7 +1,7 @@
 import json
-from random import random
 
 from core.classes.item import Item
+from core.classes.QTEBarState import QTEBarState
 from core.classes.constants import Constants
 from core.classes.wall import Wall
 from core.utils.utils import Gfx, Collisions
@@ -50,6 +50,9 @@ class Map:
         # ITEMS
         self.items  = {"front": [],
                        "back" : []}
+        # QTE
+        self.qte = []
+        self.qte.append(QTEBarState(200,200,True,8,0.1,0.2))
 
         for floor in cfg['floors']:
             h  = floor['height'] * self.backhouse.height
