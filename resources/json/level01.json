@@ -32,7 +32,7 @@
         {"id":"b1","posx" : 0.366,"dest": "b2","width":0.05}
       ],
       "items": [
-        {"name": "frigo"     , "posx": 0.560, "posz": "back" , "init_type": ""},
+        {"name": "frigo"     , "posx": 0.560, "posz": "back" , "init_type": "" , "ia": "skynet"},
         {"name": "tele"      , "posx": 0.190, "posz": "back" , "init_type": "cat", "qte": "bar-hard"},
         {"name": "chaussures", "posx": 0.717, "posz": "back" , "init_type": "cat", "qte": "bar-medium"},
         {"name": "evier"     , "posx": 0.520, "posz": "back" , "init_type": "cat", "qte": "bar-easy"},

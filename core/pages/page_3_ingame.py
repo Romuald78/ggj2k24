@@ -3,6 +3,7 @@ from random import random
 import arcade
 import json
 
+from core.classes.IALogic import iaDrawStep
 from core.classes.People import Person, Human, Cat
 from core.classes.QTELogic import notifyQTEInteraction, qteDraw
 from core.classes.StairsLogic import processStairsAction, processStairsHighlight
@@ -68,6 +69,7 @@ class Page3InGame:
             # If true, the related item is highlighted
             self.map.process_player(p)
             processStairsHighlight(self.map.stairs, p)
+        self.map.ia.update(deltaTime)
 
     def draw(self):
         # Background
@@ -81,7 +83,8 @@ class Page3InGame:
         self.map.draw_items("front")
 
         # TODO
-        qteDraw(self.map.qte)
+        qteDraw(self.map.qte,self.map.ia)
+        self.map.ia.draw()
 
     def onKeyEvent(self, key, isPressed):
         p = self.__find_player(Constants.KEYBOARD_CTRL)
@@ -93,7 +96,7 @@ class Page3InGame:
             elif not isPressed and key == arcade.key.SPACE:
                 #other interactive
                 if not processStairsAction(self.map.stairs, p):
-                    notifyQTEInteraction(self.map.qte, p)
+                    notifyQTEInteraction(self.map.qte, p,self.map.ia)
 
 
     def onButtonEvent(self, gamepadNum, buttonName, isPressed):

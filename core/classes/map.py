@@ -1,8 +1,8 @@
 import json
 
+from core.classes.IAState import IAState
 from core.classes.QTELogic import qteBuilder
 from core.classes.item import Item
-from core.classes.QTEBarState import QTEBarState
 from core.classes.constants import Constants
 from core.classes.wall import Wall
 from core.utils.utils import Gfx, Collisions
@@ -53,6 +53,7 @@ class Map:
                        "back" : []}
         # QTE
         self.qte = []
+        self.ia = None
 
         for floor in cfg['floors']:
             h  = floor['height'] * self.backhouse.height
@@ -82,6 +83,8 @@ class Map:
                 self.items[item['posz']].append(itm)
                 if item.get("qte", None) is not None:
                     qteBuilder(self.qte, x, y+h-(0.07*self.backhouse.height),itm,item['qte'])
+                if item.get("ia", None) is not None:
+                    self.ia = IAState(item['ia'],x,y+h-(0.07*self.backhouse.height))
 
 
         # START POSITIONS
