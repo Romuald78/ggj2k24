@@ -20,6 +20,8 @@ class Person:
 
         self._idle_L = None
         self._idle_R = None
+        self._move_L = None
+        self._move_R = None
 
     @property
     def x(self):
@@ -80,8 +82,12 @@ class Person:
     def update(self, deltaTime):
         self._idle_L.update_animation(deltaTime)
         self._idle_R.update_animation(deltaTime)
+        self._move_L.update_animation(deltaTime)
+        self._move_R.update_animation(deltaTime)
+
         if not self._moveable:
             return
+
         if self._move_left:
             self._x -= self._speed * deltaTime
         if self._move_right:
@@ -94,10 +100,10 @@ class Person:
 
     def draw(self):
         # update gfx position according to model position
-        self._idle_L.center_x = self._x
-        self._idle_R.center_x = self._x
-        self._idle_L.center_y = self._y
-        self._idle_R.center_y = self._y
+        self._idle_L.center_x, self._idle_L.center_y = self._x, self._y
+        self._idle_R.center_x, self._idle_R.center_y = self._x, self._y
+        self._move_L.center_x, self._move_L.center_y = self._x, self._y
+        self._move_R.center_x, self._move_R.center_y = self._x, self._y
 
         if Constants.DEBUG:
             arcade.draw_rectangle_outline(
@@ -117,12 +123,12 @@ class Person:
                     self._idle_R.draw()
         # MOVE LEFT DISPLAY
         elif self._move_left:
-            if self._idle_L is not None:
-                self._idle_L.draw()
+            if self._move_L is not None:
+                self._move_L.draw()
         # MOVE RIGHT DISPLAY
         else:
-            if self._idle_R is not None:
-                self._idle_R.draw()
+            if self._move_R is not None:
+                self._move_R.draw()
 
 
 class Human(Person):
@@ -144,6 +150,21 @@ class Human(Person):
         self._idle_R.scale = ratio
         self.shift(0, self._idle_R.height / 2)
 
+        # animations
+        params = {
+            "filePath": "resources/characters/atlas walk idle vieux.png",
+            "position": (x0, y0),
+            "spriteBox": (6, 1, 119, 171),
+            "startIndex": 0,
+            "endIndex": 5,
+            "frameDuration":0.1
+        }
+        self._move_R = Gfx.create_animated(params)
+        params['flipH'] = True
+        self._move_L = Gfx.create_animated(params)
+        self._move_L.scale = ratio
+        self._move_R.scale = ratio
+
         # update _w _h
         self._w = self._idle_L.width
         self._h = self._idle_L.height
@@ -154,11 +175,12 @@ class Cat(Person):
     def __init__(self, ctrl, x0=0, y0=0, ratio=1.0):
         super().__init__(ctrl, Constants.CAT_SPEED, x0, y0)
         params = {
-            "filePath": "resources/characters/chat.png",
+            "filePath": "resources/characters/atlas chat idle.png",
             "position": (x0, y0),
-            "spriteBox": (1, 1, 134, 79),
+            "spriteBox": (4, 1, 147, 90),
             "startIndex": 0,
-            "endIndex": 0,
+            "endIndex": 3,
+            "frameDuration":0.2
         }
         self._idle_R = Gfx.create_animated(params)
         params['flipH'] = True
@@ -167,11 +189,25 @@ class Cat(Person):
         self._idle_R.scale = ratio
         self.shift(0, self._idle_R.height / 2)
 
+        # animations
+        params = {
+            "filePath": "resources/characters/atlas chat walk idle.png",
+            "position": (x0, y0),
+            "spriteBox": (4, 1, 166, 94),
+            "startIndex": 0,
+            "endIndex": 3,
+            "frameDuration":0.1
+        }
+
+        self._move_R = Gfx.create_animated(params)
+        params['flipH'] = True
+        self._move_L = Gfx.create_animated(params)
+        self._move_L.scale = ratio
+        self._move_R.scale = ratio
+
         # update _w _h
         self._w = self._idle_L.width
         self._h = self._idle_L.height
-
-
 
     def draw(self):
         # Draw specific parts
