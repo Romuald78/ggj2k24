@@ -21,12 +21,22 @@ def computeDestCoords(stair, stairs):
     for stairDest in stairs:
         if stairDest.id == dest:
             stair.dest_x = stairDest.x
-            stair.dest_y = stairDest.y
+            stair.dest_y = stairDest.bottom
             return
     #print("ERROR: could not find stair with id " + dest)
 
+def processStairsHighlight(stairs, player):
+    for stair in stairs:
+        computeDestCoords(stair,stairs)
+        if Collisions.AABBs((player.left, player.top),
+                            (player.right, player.bottom),
+                            (stair.left, stair.top),
+                            (stair.right, stair.bottom)):
+            stair.highlight = True # TODO
+        else:
+            stair.highlight = False
 
-def processStairs(stairs, player):
+def processStairsAction(stairs, player):
     for stair in stairs:
         computeDestCoords(stair,stairs)
         if Collisions.AABBs((player.left, player.top),

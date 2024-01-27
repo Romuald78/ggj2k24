@@ -61,7 +61,7 @@ class Map:
                 y  = dy + self.__y0
                 w  = stair.get("width",0.1) * self.backhouse.width
                 y += h / 2
-                self.stairs.append( Stairs(x, y, w, h,stair['id'],stair['dest']) )
+                self.stairs.append( Stairs(x, y - (h / 4), w, (h / 2),stair['id'],stair['dest']) )
 
 
 
