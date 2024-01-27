@@ -52,6 +52,14 @@ class Item:
         return self.__gfx.center_y
 
     @property
+    def width(self):
+        return self.__gfx.width
+
+    @property
+    def height(self):
+        return self.__gfx.height
+
+    @property
     def left(self):
         return self.x - self.__gfx.width / 2
 
@@ -72,8 +80,9 @@ class Item:
             arcade.draw_rectangle_outline(
                 (self.left + self.right) / 2,
                 (self.top + self.bottom) / 2,
-                self.right - self.left,
-                self.top-self.bottom, (0,0,0,128), 3
+                self.width * (1 - Constants.ITEM_HITBOX_COEF),
+                self.height,
+                (0,0,0,128), 3
             )
         if self.__highlighted:
             self.__gfx2.draw()

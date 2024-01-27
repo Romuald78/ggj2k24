@@ -17,3 +17,6 @@ class Constants:
     # MOVE SPEEDS
     HUMAN_SPEED = 750  # pixels/seconds
     CAT_SPEED   = 750  # pixels/seconds
+
+    # COLLISIONS
+    ITEM_HITBOX_COEF = 0.33

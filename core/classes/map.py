@@ -133,10 +133,12 @@ class Map:
             for itm in self.items[layer]:
                 if itm.can_interact(p):
                     itm.highlight(False)
-                    if Collisions.AABBs( (p.left   , p.top),
-                                         (p.right  , p.bottom),
-                                         (itm.left , itm.top),
-                                         (itm.right, itm.bottom) ):
+                    margin  = (itm.width * Constants.ITEM_HITBOX_COEF) / 2
+                    margin2 = (p.width   * Constants.ITEM_HITBOX_COEF) / 2
+                    if Collisions.AABBs( (p.left  + margin2 , p.top),
+                                         (p.right - margin2 , p.bottom),
+                                         (itm.left  + margin, itm.top),
+                                         (itm.right - margin, itm.bottom) ):
                         itm.highlight(True)
 
     def draw_background(self):

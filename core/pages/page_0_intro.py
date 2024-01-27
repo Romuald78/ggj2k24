@@ -70,6 +70,7 @@ class Page0Intro:
         pass
 
     def onMouseButtonEvent(self, x, y, buttonNum, isPressed):
-        if isPressed:
-            self.__goto_splash_screen()
+        pass
+        # if isPressed:
+        #     self.__goto_splash_screen()
 
