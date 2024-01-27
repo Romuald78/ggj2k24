@@ -4,6 +4,7 @@ from random import random
 from core.classes.constants import Constants
 from core.classes.wall import Wall
 from core.utils.utils import Gfx, Collisions
+from core.classes.Stairs import Stairs
 
 
 class Map:
@@ -38,6 +39,7 @@ class Map:
 
         # WALLS (blocking)
         self.walls = []
+        self.stairs = []
         for floor in cfg['floors']:
             h  = floor['height'] * self.backhouse.height
             dy = floor['posy'] * self.backhouse.height
@@ -48,6 +50,13 @@ class Map:
                 w  = 0.009375 * self.backhouse.width
                 y += h / 2
                 self.walls.append( Wall(x, y, w, h) )
+            for stair in floor.get('stairs', []):
+                dx = stair['posx'] * self.backhouse.width
+                x  = dx + self.__x0
+                y  = dy + self.__y0
+                w  = stair.get("width",0.1) * self.backhouse.width
+                y += h / 2
+                self.stairs.append( Stairs(x, y, w, h,stair['id'],stair['dest']) )
 
         # START POSITIONS
         hx = cfg['human_start']['posx']
@@ -94,5 +103,7 @@ class Map:
         if Constants.DEBUG:
             for w in self.walls:
                 w.debug_draw()
+            for s in self.stairs:
+                s.debug_draw()
 
 

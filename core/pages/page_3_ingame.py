@@ -4,6 +4,7 @@ import arcade
 import json
 
 from core.classes.People import Person, Human, Cat
+from core.classes.StairsLogic import processStairs
 from core.classes.constants import Constants
 from core.classes.map import Map
 from core.utils.utils import Gfx
@@ -65,6 +66,7 @@ class Page3InGame:
             # [TODO] This method also checks if the player can interact with items
             # If true, the related item is highlighted
             self.map.process_player(p)
+            processStairs(self.map.stairs,p)
 
     def draw(self):
         # Background
