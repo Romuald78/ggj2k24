@@ -1,0 +1,28 @@
+
+top level gfx filepath
+width / height
+
+player start positions (#etage from 0, x0, +-range)
+
+liste par etage (posy)
+
+list stairs(posx, id, dest_id, useable by, gfx )
+
+list walls (posx)
+
+list doors (posx)
+
+list useable {
+  posx (relative percent 0.0-1.0)
+ "gfx filepath"
+ "width/height % of toplevel W/H 0.0 - 1.0"
+ "type qte" : "string"
+ useable by
+
+}
+
+list foreground
+posx (0.0 -1.0)
+gfx filepath
+width height (0.0-1.0)
+

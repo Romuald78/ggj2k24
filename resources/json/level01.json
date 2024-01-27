@@ -1,0 +1,56 @@
+{
+  "background_gfx": "resources/backgrounds/back_house.png",
+  "width": 1920,
+  "height": 1080,
+
+  "human_start": {
+    "floor": 0,
+    "posx": 0.25,
+    "xrange": 0
+  },
+
+  "cat_start": {
+    "floor": 0,
+    "posx": 0.75,
+    "xrange": 0
+  },
+
+  "floors": [
+    {
+      "name"  : "ground",
+      "posy"  : 0.07407407407407407,
+      "height": 0.227777778,
+      "walls" : [
+        {
+          "posx" : 0.0546875
+        }
+      ]
+    },
+    {
+      "name"  : "floor_1",
+      "posy"  : 0.30185185185185187,
+      "height": 0.22962963,
+      "walls" : [
+        {
+          "posx" : 0.0546875
+        },
+        {
+          "posx" : 0.807
+        }
+      ]
+    },
+    {
+      "name": "floor_2",
+      "posy"  : 0.5314814814814814,
+      "height": 0.23,
+      "walls": [
+        {
+          "posx" : 0.0546875
+        },
+        {
+          "posx" : 0.807
+        }
+      ]
+    }
+  ]
+}
