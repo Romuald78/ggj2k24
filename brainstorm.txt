@@ -5,10 +5,13 @@ width / height
 player start positions (#etage from 0, x0, +-range)
 
 liste par etage (posy)
+list walls (posx)
+
+
+	
 
 list stairs(posx, id, dest_id, useable by, gfx )
 
-list walls (posx)
 
 list doors (posx)
 
