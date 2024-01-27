@@ -6,12 +6,14 @@ from core.utils.utils import Gfx
 
 class Person:
 
-    def __init__(self, ctrl, speed=10, x0=0, y0=0):
+    def __init__(self, ctrl, speed=1000, x0=0, y0=0, width=200, height=200):
         self._ctrl = ctrl
         self._moveable = True
         self._speed = speed
         self._x = x0
         self._y = y0
+        self._w = width
+        self._h = height
         self._move_left  = False
         self._move_right = False
         self._lastdir_left = False
@@ -20,8 +22,40 @@ class Person:
         self._idle_R = None
 
     @property
+    def x(self):
+        return self._x
+
+    @property
+    def y(self):
+        return self._y
+
+    @property
+    def left(self):
+        return self._x - self._w / 2
+
+    @property
+    def right(self):
+        return self._x + self._w / 2
+
+    @property
+    def top(self):
+        return self._y + self._h / 2
+
+    @property
+    def bottom(self):
+        return self._y - self._h / 2
+
+    @property
+    def y(self):
+        return self._y
+
+    @property
     def ctrl(self):
         return self._ctrl
+
+    def shift(self, dx, dy):
+        self._x += dx
+        self._y += dy
 
     def freeze(self):
         self._moveable = False
@@ -46,10 +80,15 @@ class Person:
             self._x += self._speed * deltaTime
 
     def draw(self):
+        # update gfx position according to model position
+        self._idle_L.center_x = self._x
+        self._idle_R.center_x = self._x
+
         if Constants.DEBUG:
             arcade.draw_rectangle_outline(
-                self._x, self._y+100, 200, 200, (0, 0, 0), 5
+                self._x, self._y+self._h/2, self._w, self._h, (0, 0, 0), 5
             )
+        # STATIC DISPLAY
         if self._move_left == self._move_right:
             if self._lastdir_left:
                 if self._idle_L is not None:
@@ -57,17 +96,24 @@ class Person:
             else:
                 if self._idle_R is not None:
                     self._idle_R.draw()
+        # MOVE LEFT DISPLAY
+        elif self._move_left:
+            if self._idle_L is not None:
+                self._idle_L.draw()
+        # MOVE RIGHT DISPLAY
+        else:
+            if self._idle_R is not None:
+                self._idle_R.draw()
 
 
 class Human(Person):
 
-    def __init__(self, ctrl, speed=10, x0=0, y0=0):
-        super().__init__(ctrl, speed, x0, y0)
+    def __init__(self, ctrl, x0=0, y0=0):
+        super().__init__(ctrl, Constants.HUMAN_SPEED, x0, y0)
         params = {
-            "filePath": "resources/characters/player.png",
-            "size": (250, 250),
+            "filePath": "resources/characters/vieux.png",
             "position": (x0, y0),
-            "spriteBox": (7, 1, 170, 250),
+            "spriteBox": (1, 1, 112, 169),
             "startIndex": 0,
             "endIndex": 0,
         }
@@ -80,8 +126,8 @@ class Human(Person):
 
 class Cat(Person):
 
-    def __init__(self, ctrl, speed=10, x0=0, y0=0):
-        super().__init__(ctrl, speed, x0, y0)
+    def __init__(self, ctrl, x0=0, y0=0):
+        super().__init__(ctrl, Constants.CAT_SPEED, x0, y0)
 
     def draw(self):
         # Draw specific parts

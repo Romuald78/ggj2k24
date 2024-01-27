@@ -3,7 +3,7 @@
 class Constants:
 
     # PROGRAM PARAMETERS
-    DEBUG = True
+    DEBUG = False
 
     # INTRO TIME
     TIME_GGJ = 8
@@ -14,3 +14,6 @@ class Constants:
     MOUSE_CTRL    = -2
     KEYBOARD_CTRL = -1
 
+    # MOVE SPEEDS
+    HUMAN_SPEED = 1500  # pixels/seconds
+    CAT_SPEED   = 1500  # pixels/seconds

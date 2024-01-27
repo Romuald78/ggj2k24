@@ -3,7 +3,7 @@ from random import random
 
 from core.classes.constants import Constants
 from core.classes.wall import Wall
-from core.utils.utils import Gfx
+from core.utils.utils import Gfx, Collisions
 
 
 class Map:
@@ -76,7 +76,20 @@ class Map:
     def cat_start_pix(self):
         return self.__cat_start
 
-    def draw_back(self):
+    def process_player(self, p):
+        for wall in self.walls:
+            if Collisions.AABBs( (p.left    , p.top),
+                                 (p.right   , p.bottom),
+                                 (wall.left , wall.top),
+                                 (wall.right, wall.bottom) ):
+                # put player outside wall
+                if p.x < wall.x:
+                    unionx =  wall.left - p.right
+                else:
+                    unionx = wall.right - p.left
+                p.shift(unionx, 0)
+
+    def draw_background(self):
         self.backhouse.draw()
         if Constants.DEBUG:
             for w in self.walls:

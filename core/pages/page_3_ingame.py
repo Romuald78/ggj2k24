@@ -60,10 +60,15 @@ class Page3InGame:
     def on_update(self, deltaTime):
         for p in self.people:
             p.update(deltaTime)
+            # This method checks collisions with walls
+            # if a collision occurs, the player is moved correctly.
+            # [TODO] This method also checks if the player can interact with items
+            # If true, the related item is highlighted
+            self.map.process_player(p)
 
     def draw(self):
         # Background
-        self.map.draw_back()
+        self.map.draw_background()
         # Draw back items
         # TODO
         # Draw players
@@ -78,7 +83,7 @@ class Page3InGame:
             if key == arcade.key.LEFT or key == arcade.key.Q:
                 p.move_left(isPressed)
             elif key == arcade.key.RIGHT or key == arcade.key.D:
-                p.move_left(isPressed)
+                p.move_right(isPressed)
 
     def onButtonEvent(self, gamepadNum, buttonName, isPressed):
         p = self.__find_player(gamepadNum)
