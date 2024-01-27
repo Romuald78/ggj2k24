@@ -78,6 +78,11 @@ class Map:
 
     def process_player(self, p):
         for wall in self.walls:
+
+            if wall.x >= 1100 and wall.x <= 1150:
+                print(p.left, p.right, p.top, p.bottom)
+                print(wall.left, wall.right, wall.top, wall.bottom)
+                print()
             if Collisions.AABBs( (p.left    , p.top),
                                  (p.right   , p.bottom),
                                  (wall.left , wall.top),

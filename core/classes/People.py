@@ -88,6 +88,13 @@ class Person:
             arcade.draw_rectangle_outline(
                 self._x, self._y+self._h/2, self._w, self._h, (0, 0, 0), 5
             )
+            arcade.draw_rectangle_outline(
+                (self.left + self.right) / 2,
+                (self.top + self.bottom) / 2,
+                self.right - self.left,
+                self.top-self.bottom, (0,0,0), 10
+
+            )
         # STATIC DISPLAY
         if self._move_left == self._move_right:
             if self._lastdir_left:
@@ -122,6 +129,10 @@ class Human(Person):
         params['flipH'] = True
         self._idle_L = Gfx.create_animated(params)
         self._idle_L.center_y += self._idle_L.height / 2
+
+        # update _w _h
+        self._w = self._idle_L.width
+        self._h = self._idle_L.height
 
 
 class Cat(Person):

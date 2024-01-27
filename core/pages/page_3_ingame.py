@@ -104,5 +104,5 @@ class Page3InGame:
         if Constants.DEBUG:
             xp = x / self.W
             yp = y / self.H
-            print(xp, yp)
+            print(f"x={x} ({xp}%) y={y} ({yp}%)")
 
