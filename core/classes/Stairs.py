@@ -7,7 +7,10 @@ class Stairs:
         self.w = w0
         self.h = h0
         self.id = id
+        self.dest_x = -1
+        self.dest_y = -1
         self.dest_id = dest_id
+        print("stairs " + str(self.x) + " " + str(self.y) + " " + str(self.w) + " " + str(self.h) + " " + str(self.id) + " " + str(self.dest_id))
 
     @property
     def left(self):

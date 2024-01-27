@@ -107,4 +107,5 @@ class Page3InGame:
             xp = x / self.W
             yp = y / self.H
             print(xp, yp)
+            print("coords: ",xp, yp, x, y)
 

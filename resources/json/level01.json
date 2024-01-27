@@ -45,7 +45,7 @@
         }
       ],
       "stairs": [
-        {"id":"b2","posx" : 0.086,"dest": "b1","width":0.05}
+        {"id":"b2","posx" : 0.086,"dest": "b3","width":0.05}
       ]
     },
     {

@@ -58,6 +58,8 @@ class Map:
                 y += h / 2
                 self.stairs.append( Stairs(x, y, w, h,stair['id'],stair['dest']) )
 
+
+
         # START POSITIONS
         hx = cfg['human_start']['posx']
         cx = cfg['cat_start']['posx']
@@ -96,7 +98,7 @@ class Map:
                     unionx =  wall.left - p.right
                 else:
                     unionx = wall.right - p.left
-                p.shift(unionx, 0)
+                p.shift(unionx, p._y)
 
     def draw_background(self):
         self.backhouse.draw()

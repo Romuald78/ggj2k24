@@ -79,14 +79,21 @@ class Person:
         if self._move_right:
             self._x += self._speed * deltaTime
 
+    # y est le pied du personnage (au dol)
+    def tp(self, x, y):
+        self._x = x
+        self._y = y + self._h / 2
+
     def draw(self):
         # update gfx position according to model position
         self._idle_L.center_x = self._x
         self._idle_R.center_x = self._x
+        self._idle_L.center_y = self._y
+        self._idle_R.center_y = self._y
 
         if Constants.DEBUG:
             arcade.draw_rectangle_outline(
-                self._x, self._y+self._h/2, self._w, self._h, (0, 0, 0), 5
+                self._x, self._y, self._w, self._h, (0, 0, 0), 5
             )
         # STATIC DISPLAY
         if self._move_left == self._move_right:
@@ -117,11 +124,10 @@ class Human(Person):
             "startIndex": 0,
             "endIndex": 0,
         }
-        self._idle_R = Gfx.create_animated(params)
-        self._idle_R.center_y += self._idle_R.height / 2
         params['flipH'] = True
+        self._idle_R = Gfx.create_animated(params)
         self._idle_L = Gfx.create_animated(params)
-        self._idle_L.center_y += self._idle_L.height / 2
+        self.shift(0, self._idle_R.height / 2)
 
 
 class Cat(Person):
