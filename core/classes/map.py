@@ -76,7 +76,7 @@ class Map:
     def cat_start_pix(self):
         return self.__cat_start
 
-    def draw(self):
+    def draw_back(self):
         self.backhouse.draw()
         if Constants.DEBUG:
             for w in self.walls:

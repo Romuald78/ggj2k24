@@ -3,7 +3,7 @@ from random import random
 import arcade
 import json
 
-from core.classes.People import Person
+from core.classes.People import Person, Human, Cat
 from core.classes.constants import Constants
 from core.classes.map import Map
 from core.utils.utils import Gfx
@@ -35,17 +35,18 @@ class Page3InGame:
         self.people = []
         # loop through all players
         if args is not None:
-                for arg in args:
-                    print(arg)
-                    # TODO choose human or cat according to player info
-                    x = human_start[0] + (random() - 0.5) * human_start[2]
-                    y = human_start[1]
-                    p = Person(arg, x0=x, y0=y)
+                for ctrl in args:
+                    # create person according to player choice
+                    if args[ctrl]['choice'] == "human":
+                        x = human_start[0] + (random() - 0.5) * human_start[2]
+                        y = human_start[1]
+                        p = Human(ctrl, x0=x, y0=y)
+                    elif args[ctrl]['choice'] == "cat":
+                        x = cat_start[0] + (random() - 0.5) * cat_start[2]
+                        y = cat_start[1]
+                        p = Cat(ctrl, x0=x, y0=y)
+                    # add person to the people list
                     self.people.append(p)
-
-
-
-
 
     def setup(self):
         self.refresh()
@@ -55,9 +56,15 @@ class Page3InGame:
             p.update(deltaTime)
 
     def draw(self):
-        self.map.draw()
+        # Background
+        self.map.draw_back()
+        # Draw back items
+        # TODO
+        # Draw players
         for p in self.people:
             p.draw()
+        # Draw front items
+        # TODO
 
     def onKeyEvent(self, key, isPressed):
         pass
@@ -72,8 +79,8 @@ class Page3InGame:
         pass
 
     def onMouseButtonEvent(self, x, y, buttonNum, isPressed):
-        xp = x / self.W
-        yp = y / self.H
         if Constants.DEBUG:
-            print( xp, yp )
+            xp = x / self.W
+            yp = y / self.H
+            print(xp, yp)
 
