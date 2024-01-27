@@ -53,6 +53,12 @@ class Person:
     def ctrl(self):
         return self._ctrl
 
+    def freeze(self):
+        self._moveable = False
+
+    def free(self):
+        self._moveable = True
+
     def shift(self, dx, dy):
         self._x += dx
         self._y += dy
@@ -74,6 +80,8 @@ class Person:
     def update(self, deltaTime):
         self._idle_L.update_animation(deltaTime)
         self._idle_R.update_animation(deltaTime)
+        if not self._moveable:
+            return
         if self._move_left:
             self._x -= self._speed * deltaTime
         if self._move_right:
