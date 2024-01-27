@@ -72,6 +72,8 @@ class Person:
             self._lastdir_left = False
 
     def update(self, deltaTime):
+        self._idle_L.update_animation(deltaTime)
+        self._idle_R.update_animation(deltaTime)
         if self._move_left:
             self._x -= self._speed * deltaTime
         if self._move_right:
@@ -123,11 +125,12 @@ class Human(Person):
     def __init__(self, ctrl, x0=0, y0=0, ratio=1.0):
         super().__init__(ctrl, Constants.HUMAN_SPEED, x0, y0)
         params = {
-            "filePath": "resources/characters/vieux.png",
+            "filePath": "resources/characters/vieux idle atlas.png",
             "position": (x0, y0),
-            "spriteBox": (1, 1, 112, 169),
+            "spriteBox": (4, 1, 100, 150),
             "startIndex": 0,
-            "endIndex": 0,
+            "endIndex": 3,
+            "frameDuration":0.2
         }
         self._idle_R = Gfx.create_animated(params)
         params['flipH'] = True
