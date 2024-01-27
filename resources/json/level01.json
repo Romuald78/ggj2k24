@@ -1,5 +1,5 @@
 {
-  "background_gfx": "resources/backgrounds/back_house.png",
+  "background_gfx": "resources/backgrounds/fond maison.png",
   "width": 1920,
   "height": 1080,
 
@@ -35,7 +35,7 @@
           "posx" : 0.0546875
         },
         {
-          "posx" : 0.807
+          "posx" : 0.8833333333333333
         }
       ]
     },

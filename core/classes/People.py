@@ -19,6 +19,10 @@ class Person:
         self._idle_L = None
         self._idle_R = None
 
+    @property
+    def ctrl(self):
+        return self._ctrl
+
     def freeze(self):
         self._moveable = False
 

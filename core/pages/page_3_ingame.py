@@ -11,6 +11,12 @@ from core.utils.utils import Gfx
 
 class Page3InGame:
 
+    def __find_player(self, ctrl):
+        for p in self.people:
+            if p.ctrl == ctrl:
+                return p
+        return None
+
     def __init__(self, w, h, window: arcade.Window, process=None):
         super().__init__()
         self.window = window
@@ -67,16 +73,27 @@ class Page3InGame:
         # TODO
 
     def onKeyEvent(self, key, isPressed):
-        pass
+        p = self.__find_player(Constants.KEYBOARD_CTRL)
+        if p is not None:
+            if key == arcade.key.LEFT or key == arcade.key.Q:
+                p.move_left(isPressed)
+            elif key == arcade.key.RIGHT or key == arcade.key.D:
+                p.move_left(isPressed)
 
     def onButtonEvent(self, gamepadNum, buttonName, isPressed):
-        pass
+        p = self.__find_player(gamepadNum)
+        if p is not None:
+            print(p)
 
     def onAxisEvent(self, gamepadNum, axisName, analogValue):
-        pass
+        p = self.__find_player(gamepadNum)
+        if p is not None:
+            print(p)
 
     def onMouseMotionEvent(self, x, y, dx, dy):
-        pass
+        p = self.__find_player(Constants.MOUSE_CTRL)
+        if p is not None:
+            print(p)
 
     def onMouseButtonEvent(self, x, y, buttonNum, isPressed):
         if Constants.DEBUG:
