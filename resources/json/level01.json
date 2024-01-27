@@ -32,14 +32,19 @@
         {"id":"b1","posx" : 0.366,"dest": "b2","width":0.05}
       ],
       "items": [
-        {"name": "frigo"     , "posx": 0.560, "posz": "back" , "init_type": ""},
-        {"name": "tele"      , "posx": 0.190, "posz": "back" , "init_type": "cat"},
-        {"name": "chaussures", "posx": 0.717, "posz": "back" , "init_type": "cat"},
-        {"name": "evier"     , "posx": 0.520, "posz": "back" , "init_type": "cat"},
+        {"name": "tele"      , "posx": 0.190, "posz": "back" , "init_type": "human"},
+        {"name": "evier"     , "posx": 0.520, "posz": "back" , "init_type": "human"},
+
+        {"name": "table"     , "posx": 0.635, "posz": "front", "init_type": "cat"},
+        {"name": "fauteuil"  , "posx": 0.140, "posz": "front", "init_type": "cat"},
         {"name": "ficus"     , "posx": 0.280, "posz": "back" , "init_type": "cat"},
-        {"name": "gamelle"   , "posx": 0.410, "posz": "back" , "init_type": "cat"},
-        {"name": "table"     , "posx": 0.635, "posz": "back" , "init_type": "cat"},
-        {"name": "fauteuil"  , "posx": 0.140, "posz": "front", "init_type": "cat"}
+        {"name": "gamelle"   , "posx": 0.410, "posz": "front", "init_type": "cat"},
+        {"name": "chaussures", "posx": 0.717, "posz": "back" , "init_type": "cat"},
+
+        {"name": "frigo"     , "posx": 0.560, "posz": "back" , "init_type": ""},
+        {"name": "trou right" , "posx": 0.463, "posz": "back" , "init_type": "cat"},
+        {"name": "trou left" , "posx": 0.0825, "posz": "back" , "init_type": "cat"},
+        {"name": "escalier montant"  , "posx": 0.367, "posz": "back", "init_type": "both"}
       ]
     },
     {
@@ -55,10 +60,14 @@
         {"id":"b3","posx" : 0.75,"dest": "b4","width":0.05}
       ],
       "items": [
-        {"name": "armoire", "posx": 0.480, "posz": "back" , "init_type": ""},
         {"name": "lit"    , "posx": 0.600, "posz": "back" , "init_type": "cat"},
         {"name": "lavabo" , "posx": 0.260, "posz": "back" , "init_type": "cat"},
-        {"name": "douche" , "posx": 0.143, "posz": "back" , "init_type": "cat"}
+        {"name": "douche" , "posx": 0.143, "posz": "back" , "init_type": "human"},
+
+        {"name": "armoire", "posx": 0.480, "posz": "back" , "init_type": ""},
+        {"name": "escalier descendant", "posx": 0.367, "posz": "back", "init_type": "both"},
+        {"name": "escalier montant", "posx": 0.750, "posz": "back", "init_type": "both"},
+        {"name": "trou left" , "posx": 0.0825, "posz": "back" , "init_type": "cat"}
       ]
     },
     {
@@ -73,7 +82,10 @@
         {"id":"b4","posx" : 0.75,"dest": "b3","width":0.05}
       ],
       "items": [
-        {"name": "litiere", "posx": 0.390, "posz": "back" , "init_type": "cat"}
+        {"name": "litiere", "posx": 0.390, "posz": "front", "init_type": "cat"},
+        {"name": "caisse devant", "posx": 0.500, "posz": "front", "init_type": "human"},
+        {"name": "trou right" , "posx": 0.086, "posz": "back" , "init_type": "cat"},
+        {"name": "escalier descendant", "posx": 0.750, "posz": "back", "init_type": "both"}
       ]
     }
   ]

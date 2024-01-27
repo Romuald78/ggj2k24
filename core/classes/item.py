@@ -20,23 +20,27 @@ class Item:
         }
         self.__gfx = Gfx.create_fixed(params)
         # HIGH LIGHT
-        params = {
-            "filePath": f"resources/items/{f2}",
-            "position": (x0, y0)
-        }
-        self.__gfx2 = Gfx.create_fixed(params)
-        # scale and move
+        try:
+            params = {
+                "filePath": f"resources/items/{f2}",
+                "position": (x0, y0)
+            }
+            self.__gfx2 = Gfx.create_fixed(params)
+        except Exception as ex:
+            self.__gfx2 = None
         self.__gfx.scale      = ratio
-        self.__gfx2.scale     = ratio
         self.__gfx.center_y  += self.__gfx.height / 2
-        self.__gfx2.center_y += self.__gfx2.height / 2
+        if self.__gfx2 is not None:
+            self.__gfx2.scale     = ratio
+            self.__gfx2.center_y += self.__gfx2.height / 2
         # other fields
         self.__highlighted = False
         self.__player_type = init_type
 
     def highlight(self, mode, clr=(255, 255, 255, 255)):
-        self.__highlighted = mode
-        self.__gfx2.color = clr
+        if self.__gfx2 is not None:
+            self.__highlighted = mode
+            self.__gfx2.color = clr
 
     def can_interact(self, player):
         h = type(player) is Human and self.__player_type == "human"
@@ -84,6 +88,6 @@ class Item:
                 self.height,
                 (0,0,0,128), 3
             )
-        if self.__highlighted:
+        if self.__highlighted and self.__gfx2 is not None:
             self.__gfx2.draw()
         self.__gfx.draw()

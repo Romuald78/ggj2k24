@@ -3,7 +3,7 @@
 class Constants:
 
     # PROGRAM PARAMETERS
-    DEBUG = True
+    DEBUG = False
 
     # INTRO TIME
     TIME_GGJ = 8
@@ -15,8 +15,8 @@ class Constants:
     KEYBOARD_CTRL = -1
 
     # MOVE SPEEDS
-    HUMAN_SPEED = 750  # pixels/seconds
-    CAT_SPEED   = 750  # pixels/seconds
+    HUMAN_SPEED = 500  # pixels/seconds
+    CAT_SPEED   = 500  # pixels/seconds
 
     # COLLISIONS
     ITEM_HITBOX_COEF = 0.33
