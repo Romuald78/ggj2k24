@@ -29,7 +29,7 @@
         }
       ],
       "stairs": [
-        {"id":"b1","posx" : 0.086,"dest": "b2","width":0.05}
+        {"id":"b1","posx" : 0.12,"dest": "b2","width":0.05}
       ]
     },
     {
@@ -45,7 +45,8 @@
         }
       ],
       "stairs": [
-        {"id":"b2","posx" : 0.086,"dest": "b3","width":0.05}
+        {"id":"b2","posx" : 0.12,"dest": "b1","width":0.05},
+        {"id":"b3","posx" : 0.75,"dest": "b4","width":0.05}
       ]
     },
     {
@@ -59,6 +60,9 @@
         {
           "posx" : 0.807
         }
+      ],
+      "stairs": [
+        {"id":"b4","posx" : 0.75,"dest": "b3","width":0.05}
       ]
     }
   ]
