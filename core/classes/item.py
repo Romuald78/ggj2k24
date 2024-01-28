@@ -1,6 +1,7 @@
 import arcade
 
-from core.classes.People import Human, Cat
+from core.classes.people.cat import Cat
+from core.classes.people.human import Human
 from core.classes.constants import Constants
 from core.classes.interface_pos import InterfacePosition
 from core.utils.utils import Gfx

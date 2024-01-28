@@ -1,4 +1,4 @@
-from core.classes.People import Cat
+from core.classes.people.cat import Cat
 from core.utils.utils import Gfx
 
 

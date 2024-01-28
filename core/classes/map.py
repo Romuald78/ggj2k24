@@ -1,7 +1,7 @@
 import json
 
-from core.classes.People import Human
-from core.classes.Pigeon import Pigeon
+from core.classes.people.human import Human
+from core.classes.people.Pigeon import Pigeon
 from core.classes.IAState import IAState
 from core.classes.QTELogic import qteBuilder
 from core.classes.interface_pos import getNearestElement
