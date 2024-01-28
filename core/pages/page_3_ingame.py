@@ -104,18 +104,24 @@ class Page3InGame:
         # Compute the mean anger level of all people
         if self.people:  # Ensure there are people to avoid division by zero
             mean_anger = 0
+            anger_count = 0
             for p in self.people:
                 if p.type == "human":
                     mean_anger = p.anger_level
-            mean_anger = mean_anger / len(self.people)
-            if(mean_anger ==0):
-                print("human win")
-                #TODO: human win
+                    anger_count += 1
+            if(anger_count != 0):
+                mean_anger = mean_anger / anger_count
+                if(mean_anger ==0):
+                    print("human win")
+                    self.looseTimer.end()
+                    #TODO: human win
             drawAngerBar(self.W, self.H,mean_anger/100)  # Use the mean anger to draw the anger bar
         else:
             drawAngerBar(self.W, self.H,0)  # If there are no people, draw an empty anger bar
 
     def onKeyEvent(self, key, isPressed):
+        if self.looseTimer.isOver():
+            return
         p = self.__find_player(Constants.KEYBOARD_CTRL)
         if p is not None:
             if key == arcade.key.A:
@@ -135,6 +141,8 @@ class Page3InGame:
 
 
     def onButtonEvent(self, gamepadNum, buttonName, isPressed):
+        if self.looseTimer.isOver():
+            return
         p = self.__find_player(gamepadNum)
         if p is not None:
 

@@ -55,7 +55,7 @@ def notifyQTEInteraction(qteSTates, people, player,ia):
                             ia.pushHumanSuccessMessage(player,qte)
                         player.free()
                         qte.active = False
-                        qte.countdownSec = 60
+                        qte.countdownSec = 20
                     else:
                         print("QTE failed - missed")
                         addAngerOnHuman(people, -10 if player.type == "human" else 1)
@@ -63,7 +63,7 @@ def notifyQTEInteraction(qteSTates, people, player,ia):
                             ia.pushHumanFailMessage(player,qte)
                         player.free()
                         qte.active = False
-                        qte.countdownSec = 15
+                        qte.countdownSec = 10
                 return True
     return False
 
