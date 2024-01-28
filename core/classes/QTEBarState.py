@@ -14,4 +14,5 @@ class QTEBarState:
         self.maxProgress = maxProgress
         self.currentPlayer = None
         self.type = type
+        self.countdownSec = 0
 

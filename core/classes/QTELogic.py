@@ -38,7 +38,7 @@ def notifyQTEInteraction(qteSTates, people, player,ia):
                             (qte.item.left, qte.item.top),
                             (qte.item.right, qte.item.bottom)):
             if qte.type==player.type:
-                if qte.active == False:
+                if qte.active == False and qte.countdownSec <= 0:
                     # update the state
                     qte.active = True
                     qte.currentPlayer = player
@@ -55,6 +55,7 @@ def notifyQTEInteraction(qteSTates, people, player,ia):
                             ia.pushHumanSuccessMessage(player,qte)
                         player.free()
                         qte.active = False
+                        qte.countdownSec = 60
                     else:
                         print("QTE failed - missed")
                         addAngerOnHuman(people, -10 if player.type == "human" else 1)
@@ -62,6 +63,7 @@ def notifyQTEInteraction(qteSTates, people, player,ia):
                             ia.pushHumanFailMessage(player,qte)
                         player.free()
                         qte.active = False
+                        qte.countdownSec = 15
                 return True
     return False
 
@@ -90,6 +92,11 @@ def qteBuilder(qteStates, x, y,itm, qteType,type):
     else:
         print(f"Unknown qteType: {qteType}")
 
+def qteUpdate(qteSTates,deltaTime):
+    for qte in qteSTates:
+        if qte.countdownSec > 0:
+            qte.countdownSec -= deltaTime
+
 
 def qteDraw(qteSTates,ia):
     for qte in qteSTates:
@@ -108,6 +115,7 @@ def qteDraw(qteSTates,ia):
                     ia.pushHumanFailMessage(None, qte)
                 qte.currentPlayer.free()
                 qte.active = False
+                qte.countdownSec = 15
 
             BAR_X = qte.x
             BAR_Y = qte.y

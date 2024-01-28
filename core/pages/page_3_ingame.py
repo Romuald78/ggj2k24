@@ -6,7 +6,7 @@ from core.classes.AngerBar import drawAngerBar
 from core.classes.LooseTimer import LooseTimer
 from core.classes.people.cat import Cat
 from core.classes.people.human import Human
-from core.classes.QTELogic import notifyQTEInteraction, qteDraw
+from core.classes.QTELogic import notifyQTEInteraction, qteDraw, qteUpdate
 from core.classes.StairsLogic import processStairsAction
 from core.classes.constants import Constants
 from core.classes.map import Map
@@ -83,6 +83,7 @@ class Page3InGame:
 
         self.map.ia.update(deltaTime)
         self.looseTimer.update(deltaTime)
+        qteUpdate(self.map.qte,deltaTime)
 
     def draw(self):
         # Background
@@ -94,14 +95,20 @@ class Page3InGame:
             p.draw()
         # Draw front items
         self.map.draw_items("front")
-        # TODO
         qteDraw(self.map.qte,self.map.ia)
         self.map.ia.draw()
         self.looseTimer.draw()
 
         # Compute the mean anger level of all people
         if self.people:  # Ensure there are people to avoid division by zero
-            mean_anger = sum(p.anger_level for p in self.people) / len(self.people)
+            mean_anger = 0
+            for p in self.people:
+                if p.type == "human":
+                    mean_anger = p.anger_level
+            mean_anger = mean_anger / len(self.people)
+            if(mean_anger ==0):
+                print("human win")
+                #TODO: human win
             drawAngerBar(self.W, self.H,mean_anger/100)  # Use the mean anger to draw the anger bar
         else:
             drawAngerBar(self.W, self.H,0)  # If there are no people, draw an empty anger bar

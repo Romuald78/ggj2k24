@@ -177,6 +177,12 @@ class Map:
         # human when anger cannot use anything (so we skip highlights too)
         if type(p) != Human or not p.is_angry():
             itm = self.getNearestActivity(p)
+            """
+            for qte in self.qte:
+                if qte.item == itm and qte.countdownSec > 0:
+                    qte.item.highlight(False)
+            """
+
 
     def draw_background(self):
         self.backhouse.draw()
