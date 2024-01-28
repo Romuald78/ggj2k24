@@ -37,11 +37,11 @@ class Process:
         # Add all pages
         self.pages = []
         # Instanciate all pages
-        self.pages.append(Page4End   (self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.window, self))
         self.pages.append(Page0Intro (self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.window, self))
         self.pages.append(Page1Splash(self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.window, self))
         self.pages.append(Page2Select(self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.window, self))
         self.pages.append(Page3InGame(self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.window, self))
+        self.pages.append(Page4End   (self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.window, self))
 
         # Set first page
         self.pageIndex = 0
