@@ -285,11 +285,11 @@ def main():
     os.chdir(file_path)
 
     coef = 1.0
-    full = True
+    full = False
     if "-window" in sys.argv:
         coef = 0.66
         full = False
-    game = MyGame(int(1920 * coef), int(1080 * coef), 1.0, TITLE)
+    game = MyGame(int(1000 * coef), int(700 * coef), 1.0, TITLE)
     game.set_fullscreen(full)
     game.setup()
     arcade.run()

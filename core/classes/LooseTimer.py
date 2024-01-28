@@ -63,3 +63,6 @@ class LooseTimer:
 
     def isOver(self):
         return self.ended
+
+    def end(self):
+        self.ended = True
