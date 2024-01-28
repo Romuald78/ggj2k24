@@ -21,9 +21,17 @@ class QTEBarState:
         self.maxProgress = maxProgress
         """
 
+def addAngerOnHuman(people, anger):
+    for person in people:
+        if person.type == "human":
+            person.anger_level += anger
+            if person.anger_level >= 100:
+                person.anger_level = 100
+            elif person.anger_level < 0:
+                person.anger_level = 0
 
 # first interaction start the QTE then the bar apears and the player has to press the button once it either fails or succeeds then QTE is over
-def notifyQTEInteraction(qteSTates, player,ia):
+def notifyQTEInteraction(qteSTates, people, player,ia):
     for qte in qteSTates:
         if Collisions.AABBs((player.left, player.top),
                             (player.right, player.bottom),
@@ -42,12 +50,14 @@ def notifyQTEInteraction(qteSTates, player,ia):
                     # check if the player succeded
                     if qte.minProgress <= qte.currentBarProgress <= qte.maxProgress:
                         print("QTE success")
+                        addAngerOnHuman(people, 10 if player.type == "human" else -1)
                         if(ia is not None):
                             ia.pushHumanSuccessMessage(player,qte)
                         player.free()
                         qte.active = False
                     else:
                         print("QTE failed - missed")
+                        addAngerOnHuman(people, -10 if player.type == "human" else 1)
                         if(ia is not None):
                             ia.pushHumanFailMessage(player,qte)
                         player.free()

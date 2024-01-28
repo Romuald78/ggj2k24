@@ -2,6 +2,7 @@ from random import random
 
 import arcade
 
+from core.classes.AngerBar import drawAngerBar
 from core.classes.LooseTimer import LooseTimer
 from core.classes.people.cat import Cat
 from core.classes.people.human import Human
@@ -98,6 +99,13 @@ class Page3InGame:
         self.map.ia.draw()
         self.looseTimer.draw()
 
+        # Compute the mean anger level of all people
+        if self.people:  # Ensure there are people to avoid division by zero
+            mean_anger = sum(p.anger_level for p in self.people) / len(self.people)
+            drawAngerBar(self.W, self.H,mean_anger/100)  # Use the mean anger to draw the anger bar
+        else:
+            drawAngerBar(self.W, self.H,0)  # If there are no people, draw an empty anger bar
+
     def onKeyEvent(self, key, isPressed):
         p = self.__find_player(Constants.KEYBOARD_CTRL)
         if p is not None:
@@ -108,7 +116,7 @@ class Page3InGame:
             elif not isPressed and key == arcade.key.SPACE:
                 #other interactive
                 if not processStairsAction(self.map.stairs, p):
-                    notifyQTEInteraction(self.map.qte, p,self.map.ia)
+                    notifyQTEInteraction(self.map.qte,self.people, p,self.map.ia)
 
         # if key == arcade.key.P and isPressed:
         #     self.people[0].set_purge_anim()
@@ -124,11 +132,8 @@ class Page3InGame:
             if not isPressed:
                 #other interactive
                 if not processStairsAction(self.map.stairs, p):
-                    # TODO : fixing the line below creates a bug :
-                    #  cats cannot move anymore
-                    #notifyQTEInteraction(self.map.qte, p, )
-                    #notifyQTEInteraction(self.map.qte, p, self.map.ia)
-                    pass
+                    notifyQTEInteraction(self.map.qte,self.people, p, None)
+                    #notifyQTEInteraction(self.map.qte,self.people, p,self.map.ia)
 
     def onAxisEvent(self, gamepadNum, axisName, analogValue):
         if axisName == "X":

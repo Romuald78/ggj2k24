@@ -9,7 +9,7 @@ class Human(Person):
 
     def __init__(self, ctrl, x0=0, y0=0, ratio=1.0):
         super().__init__(ctrl, Constants.HUMAN_SPEED, x0, y0,type="human")
-        self.anger_level = 0
+        self.anger_level = 50 #start at 50% anger
         self.anger_time  = 0
         params = {
             "filePath": "resources/characters/vieux idle atlas.png",
