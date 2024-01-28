@@ -64,9 +64,9 @@
         {"id":"c2","posx" : 0.084,"dest": "c1","width":0.05,"type": "cat"}
       ],
       "items": [
-        {"name": "lit"    , "posx": 0.600, "posz": "back" , "init_type": "cat"},
-        {"name": "lavabo" , "posx": 0.260, "posz": "back" , "init_type": "cat"},
-        {"name": "douche" , "posx": 0.143, "posz": "back" , "init_type": "human"},
+        {"name": "lit"    , "posx": 0.600, "posz": "back" , "init_type": "cat" , "qte": "bar-hard"},
+        {"name": "lavabo" , "posx": 0.260, "posz": "back" , "init_type": "cat", "qte": "bar-medium"},
+        {"name": "douche" , "posx": 0.143, "posz": "back" , "init_type": "human", "qte": "bar-hard"},
 
         {"name": "armoire", "posx": 0.480, "posz": "back" , "init_type": ""},
         {"name": "escalier descendant", "posx": 0.367, "posz": "back", "init_type": "both"},
@@ -87,9 +87,10 @@
         {"id":"c3","posx" : 0.084,"dest": "c4","width":0.05,"type": "cat"}
       ],
       "items": [
-        {"name": "table drap", "posx": 0.250, "posz": "back", "init_type": "cat"},
-        {"name": "litiere", "posx": 0.390, "posz": "front", "init_type": "cat"},
-        {"name": "caisse devant", "posx": 0.500, "posz": "front", "init_type": "human"},
+        {"name": "table drap", "posx": 0.250, "posz": "back", "init_type": "cat", "qte": "bar-hard"},
+        {"name": "litiere", "posx": 0.390, "posz": "front", "init_type": "cat", "qte": "bar-hard"},
+        {"name": "caisse devant", "posx": 0.500, "posz": "front", "init_type": "human", "qte": "bar-hard"},
+
         {"name": "trou right" , "posx": 0.086, "posz": "back" , "init_type": "cat"},
         {"name": "escalier descendant", "posx": 0.750, "posz": "back", "init_type": "both"}
       ]
