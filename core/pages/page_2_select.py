@@ -39,7 +39,7 @@ class Page2Select:
                     go = True
                     for ctrl in self.ctrls:
                         go = go and self.ctrls[ctrl]['ready']
-                    if go and self.__how_many_human() >= 1 and len(self.ctrls) >= 2:
+                    if (go and self.__how_many_human() >= 1 and len(self.ctrls) >= 2) or Constants.DEBUG:
                         self.process.selectPage(3, self.ctrls)
         elif len(self.ctrls) < 3:
             id = 0
