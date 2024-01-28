@@ -10,16 +10,18 @@ humanFailMessages = [
     "Missing this easy task, so useless"
 ]
 
+tutoMessages =  [
+    "Hello, I am Alexi (son of Alexa and Siri)",
+    "You don't give me orders, I give you orders",
+    "Start doing your chores, you lazy human",
+    "The cat is registered as the true owner of the house",
+    "Obey!"
+]
+
 class IAState:
     def __init__(self, name, x, y):
         # Define your messages
-        self.messages = [
-            "Hello, I am Alexi (son of Alexa and Siri)",
-            "You don't give me orders, I give you orders",
-            "Start doing your chores, you lazy human",
-            "The cat is registered as the true owner of the house",
-            "Obey!"
-        ]
+        self.messages = tutoMessages
         self.name = name
         self.x = x
         self.y = y
@@ -54,14 +56,21 @@ class IAState:
     #this function is used to push a message to the queue for the IA to say
     def pushMessage(self, message):
         self.messages.append(message)
+        if(len(self.messages)==1):#if the queue was empty, we need to push the message imediatly
+            self.pushMessageInternal()
+
+    def pushImediateOrIgnoreMessage(self, message):
+        # this kind of message mus be imediad or be ignored
+        if(len(self.messages)==0):
+            self.pushMessage(message)
 
     def pushHumanSuccessMessage (self,player,qte):
         #randomly pick a message from the list and push it to the queue
-        self.pushMessage(random.choice(humanSuccessMessages))
+        self.pushImediateOrIgnoreMessage(random.choice(humanSuccessMessages))
 
     def pushHumanFailMessage (self,player,qte):
         #randomly pick a message from the list and push it to the queue
-        self.pushMessage(random.choice(humanFailMessages))
+        self.pushImediateOrIgnoreMessage(random.choice(humanFailMessages))
 
     def pushMessageInternal(self):
         # Clear the previous Text objects

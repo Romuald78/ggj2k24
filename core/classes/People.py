@@ -6,7 +6,7 @@ from core.utils.utils import Gfx
 
 class Person:
 
-    def __init__(self, ctrl, speed=1000, x0=0, y0=0, width=200, height=200):
+    def __init__(self, ctrl, speed=1000, x0=0, y0=0, width=200, height=200,type="none"):
         self._ctrl = ctrl
         self._moveable = True
         self._speed = speed
@@ -22,6 +22,7 @@ class Person:
         self._idle_R = None
         self._move_L = None
         self._move_R = None
+        self.type = type
 
     @property
     def x(self):
@@ -134,7 +135,7 @@ class Person:
 class Human(Person):
 
     def __init__(self, ctrl, x0=0, y0=0, ratio=1.0):
-        super().__init__(ctrl, Constants.HUMAN_SPEED, x0, y0)
+        super().__init__(ctrl, Constants.HUMAN_SPEED, x0, y0,type="human")
         params = {
             "filePath": "resources/characters/vieux idle atlas.png",
             "position": (x0, y0),
@@ -173,7 +174,7 @@ class Human(Person):
 class Cat(Person):
 
     def __init__(self, ctrl, x0=0, y0=0, ratio=1.0):
-        super().__init__(ctrl, Constants.CAT_SPEED, x0, y0)
+        super().__init__(ctrl, Constants.CAT_SPEED, x0, y0,type="cat")
         params = {
             "filePath": "resources/characters/atlas chat idle.png",
             "position": (x0, y0),

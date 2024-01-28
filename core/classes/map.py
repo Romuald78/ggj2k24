@@ -71,7 +71,7 @@ class Map:
                 y  = dy + self.__y0
                 w  = stair.get("width",0.1) * self.backhouse.width
                 y += h / 2
-                self.stairs.append( Stairs(x, y - (h / 4), w, (h / 2),stair['id'],stair['dest']) )
+                self.stairs.append( Stairs(x, y - (h / 4), w, (h / 2),stair['id'],stair['dest'] ,stair.get("type",None)))
             for item in floor['items']:
                 dx = item['posx'] * self.backhouse.width
                 x  = dx + self.__x0
@@ -82,7 +82,7 @@ class Map:
                            init_type=item['init_type'])
                 self.items[item['posz']].append(itm)
                 if item.get("qte", None) is not None:
-                    qteBuilder(self.qte, x, y+h-(0.07*self.backhouse.height),itm,item['qte'])
+                    qteBuilder(self.qte, x, y+h-(0.07*self.backhouse.height),itm,item['qte'],item['init_type'])
                 if item.get("ia", None) is not None:
                     self.ia = IAState(item['ia'],x,y+h-(0.07*self.backhouse.height))
 
