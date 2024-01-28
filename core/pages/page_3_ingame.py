@@ -3,10 +3,12 @@ from random import random
 import arcade
 import json
 
+from core.classes.IALogic import iaDrawStep
+from core.classes.LooseTimer import LooseTimer
 from core.classes.People import Person, Human, Cat
 from core.classes.Pigeon import Pigeon
 from core.classes.QTELogic import notifyQTEInteraction, qteDraw
-from core.classes.StairsLogic import processStairsAction, processStairsHighlight
+from core.classes.StairsLogic import processStairsAction
 from core.classes.constants import Constants
 from core.classes.map import Map
 from core.utils.utils import Gfx
@@ -53,15 +55,23 @@ class Page3InGame:
                     elif args[ctrl]['choice'] == "cat":
                         x = cat_start[0] + (random() - 0.5) * cat_start[2]
                         y = cat_start[1]
-                        p = Cat(ctrl, x0=x, y0=y, ratio=self.map.ratio)
+                        catclr = args[ctrl]['cat_color']
+                        p = Cat(ctrl, x0=x, y0=y, ratio=self.map.ratio, clr=catclr)
                     # add person to the people list
                     self.people.append(p)
+
+        self.looseTimer = LooseTimer(60*2,self.W,self.H,self.map.ia)
 
     def setup(self):
         self.refresh()
 
     def on_update(self, deltaTime):
         # players
+        if(self.looseTimer.isOver()):
+            return
+
+        # clear all highlights
+        self.map.clear_highlights()
         for p in self.people:
             p.update(deltaTime)
             # This method checks collisions with walls
@@ -70,7 +80,8 @@ class Page3InGame:
             # If true, the related item is highlighted
             self.map.process_player(p, deltaTime)
 
-            processStairsHighlight(self.map.stairs, p)
+        self.map.ia.update(deltaTime)
+        self.looseTimer.update(deltaTime)
 
     def draw(self):
         # Background
@@ -83,7 +94,9 @@ class Page3InGame:
         # Draw front items
         self.map.draw_items("front")
         # TODO
-        qteDraw(self.map.qte)
+        qteDraw(self.map.qte,self.map.ia)
+        self.map.ia.draw()
+        self.looseTimer.draw()
 
     def onKeyEvent(self, key, isPressed):
         p = self.__find_player(Constants.KEYBOARD_CTRL)
@@ -95,7 +108,7 @@ class Page3InGame:
             elif not isPressed and key == arcade.key.SPACE:
                 #other interactive
                 if not processStairsAction(self.map.stairs, p):
-                    notifyQTEInteraction(self.map.qte, p)
+                    notifyQTEInteraction(self.map.qte, p,self.map.ia)
 
 
     def onButtonEvent(self, gamepadNum, buttonName, isPressed):

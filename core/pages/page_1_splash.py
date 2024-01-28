@@ -21,8 +21,9 @@ class Page1Splash:
     def refresh(self, args=None):
         self.window.set_viewport(0, self.W, 0, self.H)
         params = {
-            "filePath" : "resources/backgrounds/splash_back.png",
+            "filePath" : "resources/backgrounds/fond maison.png",
             "size" : (self.W, self.H),
+            "filterColor": (255,255,255,128),
             "position" : (self.W/2, self.H/2)
         }
         self.gfx =Gfx.create_fixed(params)

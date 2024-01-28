@@ -2,10 +2,10 @@ import json
 
 from core.classes.People import Human
 from core.classes.Pigeon import Pigeon
+from core.classes.IAState import IAState
 from core.classes.QTELogic import qteBuilder
 from core.classes.interface_pos import getNearestElement
 from core.classes.item import Item
-from core.classes.QTEBarState import QTEBarState
 from core.classes.constants import Constants
 from core.classes.wall import Wall
 from core.utils.utils import Gfx, Collisions
@@ -58,6 +58,7 @@ class Map:
                        "back" : []}
         # QTE
         self.qte = []
+        self.ia = None
 
         for floor in cfg['floors']:
             h  = floor['height'] * self.backhouse.height
@@ -75,7 +76,7 @@ class Map:
                 y  = dy + self.__y0
                 w  = stair.get("width",0.1) * self.backhouse.width
                 y += h / 2
-                self.stairs.append( Stairs(x, y - (h / 4), w, (h / 2),stair['id'],stair['dest']) )
+                self.stairs.append( Stairs(x, y - (h / 4), w, (h / 2),stair['id'],stair['dest'] ,stair.get("type",None)))
             for item in floor['items']:
                 dx = item['posx'] * self.backhouse.width
                 x  = dx + self.__x0
@@ -86,7 +87,9 @@ class Map:
                            init_type=item['init_type'])
                 self.items[item['posz']].append(itm)
                 if item.get("qte", None) is not None:
-                    qteBuilder(self.qte, x, y+h-(0.07*self.backhouse.height),itm,item['qte'])
+                    qteBuilder(self.qte, x, y+h-(0.07*self.backhouse.height),itm,item['qte'],item['init_type'])
+                if item.get("ia", None) is not None:
+                    self.ia = IAState(item['ia'],x,y+h-(0.07*self.backhouse.height))
 
 
         # START POSITIONS
@@ -132,8 +135,6 @@ class Map:
         all = []
         for layer in self.items:
             all += self.items[layer]
-            for itm in self.items[layer]:
-                itm.highlight(False)
 
         all.append(self.pigeon)
         self.pigeon.highlight(False)
@@ -148,6 +149,11 @@ class Map:
                              (itm.right - margin, itm.bottom) ):
             itm.highlight(True, clr)
         return itm
+
+    def clear_highlights(self):
+        for layer in self.items:
+            for item in self.items[layer]:
+                item.highlight(False)
 
     def process_player(self, p, deltaTime):
         # pigeon activity

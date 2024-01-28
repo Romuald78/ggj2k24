@@ -23,35 +23,40 @@ class QTEBarState:
 
 
 # first interaction start the QTE then the bar apears and the player has to press the button once it either fails or succeeds then QTE is over
-def notifyQTEInteraction(qteSTates, player):
+def notifyQTEInteraction(qteSTates, player,ia):
     for qte in qteSTates:
         if Collisions.AABBs((player.left, player.top),
                             (player.right, player.bottom),
                             (qte.item.left, qte.item.top),
                             (qte.item.right, qte.item.bottom)):
-            if qte.active == False:
-                # update the state
-                qte.active = True
-                qte.currentPlayer = player
-                player.freeze()
-                qte.startTimer = time.time()
-                print("QTE started")
-            # qte is active
-            else:
-                # check if the player succeded
-                if qte.minProgress <= qte.currentBarProgress <= qte.maxProgress:
-                    print("QTE success")
-                    player.free()
-                    qte.active = False
+            if qte.type==player.type:
+                if qte.active == False:
+                    # update the state
+                    qte.active = True
+                    qte.currentPlayer = player
+                    player.freeze()
+                    qte.startTimer = time.time()
+                    print("QTE started")
+                # qte is active
                 else:
-                    print("QTE failed - missed")
-                    player.free()
-                    qte.active = False
-            return True
+                    # check if the player succeded
+                    if qte.minProgress <= qte.currentBarProgress <= qte.maxProgress:
+                        print("QTE success")
+                        if(ia is not None):
+                            ia.pushHumanSuccessMessage(player,qte)
+                        player.free()
+                        qte.active = False
+                    else:
+                        print("QTE failed - missed")
+                        if(ia is not None):
+                            ia.pushHumanFailMessage(player,qte)
+                        player.free()
+                        qte.active = False
+                return True
     return False
 
 
-def qteBuilder(qteStates, x, y,itm, qteType):
+def qteBuilder(qteStates, x, y,itm, qteType,type):
     # Define the size of the win area for each difficulty level
     win_area_sizes = {
         "bar-easy": 0.30,  # 30% of the bar
@@ -71,12 +76,12 @@ def qteBuilder(qteStates, x, y,itm, qteType):
         win_area_end = win_area_start + win_area_size
 
         # Append the new QTEBarState with the calculated win area
-        qteStates.append(QTEBarState(x, y, itm, 4, win_area_start, win_area_end))
+        qteStates.append(QTEBarState(x, y, itm, 4, win_area_start, win_area_end,type))
     else:
         print(f"Unknown qteType: {qteType}")
 
 
-def qteDraw(qteSTates):
+def qteDraw(qteSTates,ia):
     for qte in qteSTates:
         if qte.active == True:
             # Increment or decrement the progress based on the direction
@@ -89,6 +94,8 @@ def qteDraw(qteSTates):
 
             if (qte.startTimer + qte.timeout) < time.time():
                 print("QTE failed - timeout")
+                if (ia is not None):
+                    ia.pushHumanFailMessage(None, qte)
                 qte.currentPlayer.free()
                 qte.active = False
 

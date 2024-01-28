@@ -29,10 +29,12 @@
         }
       ],
       "stairs": [
-        {"id":"b1","posx" : 0.366,"dest": "b2","width":0.05}
+        {"id":"c1","posx" : 0.084,"dest": "c2","width":0.05,"type": "cat"},
+        {"id":"b1","posx" : 0.366,"dest": "b2","width":0.05},
+        {"id":"c4","posx" : 0.463,"dest": "c3","width":0.05,"type": "cat"}
       ],
       "items": [
-        {"name": "frigo"     , "posx": 0.560, "posz": "back" , "init_type": ""},
+        {"name": "frigo"     , "posx": 0.560, "posz": "back" , "init_type": "","ia": "skynet"},
 
         {"name": "tele"      , "posx": 0.190, "posz": "back" , "init_type": "human", "qte": "bar-hard"},
         {"name": "evier"     , "posx": 0.520, "posz": "back" , "init_type": "human", "qte": "bar-easy"},
@@ -58,7 +60,8 @@
       ],
       "stairs": [
         {"id":"b2","posx" : 0.366,"dest": "b1","width":0.05},
-        {"id":"b3","posx" : 0.75,"dest": "b4","width":0.05}
+        {"id":"b3","posx" : 0.75,"dest": "b4","width":0.05},
+        {"id":"c2","posx" : 0.084,"dest": "c1","width":0.05,"type": "cat"}
       ],
       "items": [
         {"name": "lit"    , "posx": 0.600, "posz": "back" , "init_type": "cat"},
@@ -80,7 +83,8 @@
         { "posx" : 0.807 }
       ],
       "stairs": [
-        {"id":"b4","posx" : 0.75,"dest": "b3","width":0.05}
+        {"id":"b4","posx" : 0.75,"dest": "b3","width":0.05},
+        {"id":"c3","posx" : 0.084,"dest": "c4","width":0.05,"type": "cat"}
       ],
       "items": [
         {"name": "litiere", "posx": 0.390, "posz": "front", "init_type": "cat"},

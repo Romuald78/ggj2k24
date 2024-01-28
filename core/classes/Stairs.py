@@ -8,7 +8,7 @@ class Stairs(InterfacePosition):
     def getPosition(self):
         return (self.x, self.y)
 
-    def __init__(self, x0, y0, w0, h0,id,dest_id):
+    def __init__(self, x0, y0, w0, h0,id,dest_id,type=None):
         self.x = x0
         self.y = y0
         self.w = w0
@@ -17,6 +17,7 @@ class Stairs(InterfacePosition):
         self.dest_x = -1
         self.dest_y = -1
         self.dest_id = dest_id
+        self.type = type
         # print("stairs " + str(self.x) + " " + str(self.y) + " " + str(self.w) + " " + str(self.h) + " " + str(self.id) + " " + str(self.dest_id))
 
     @property

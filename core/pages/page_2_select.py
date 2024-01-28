@@ -6,6 +6,25 @@ from core.utils.utils import Gfx
 
 class Page2Select:
 
+    def __cat_color(self):
+        colors = []
+        for ctrl in self.ctrls:
+            colors.append(self.ctrls[ctrl]['cat_color'])
+        if not ('' in colors):
+            return ''
+        elif not (' orange' in colors):
+            return ' orange'
+        elif not (' white' in colors):
+            return ' white'
+
+    def __how_many_human(self):
+        count = 0
+        for ctrl in self.ctrls:
+            if self.ctrls[ctrl]['choice'] == "human":
+                count += 1
+        return count
+
+
     def __back_to_splash(self):
         self.process.selectPage(1)
 
@@ -20,9 +39,9 @@ class Page2Select:
                     go = True
                     for ctrl in self.ctrls:
                         go = go and self.ctrls[ctrl]['ready']
-                    if go:
+                    if go and self.__how_many_human() >= 1 and len(self.ctrls) >= 2:
                         self.process.selectPage(3, self.ctrls)
-        else:
+        elif len(self.ctrls) < 3:
             id = 0
             if ctrl == Constants.KEYBOARD_CTRL:
                 id = 2
@@ -30,30 +49,45 @@ class Page2Select:
                 id = 1
             params = {
                 "filePath"  : "resources/gui/controllers.png",
-                "size"      : (200, 100),
-                "position"  : (self.W / 2, 0),
+                "size"      : (self.W/8, self.H/8),
+                "position"  : (self.W / 3, 0),
                 "spriteBox" : (1, 3, 200, 100),
                 "startIndex": id,
-                "endIndex"  : id
+                "endIndex"  : id,
+                "filterColor" : (255,255,255,128)
             }
             spr = Gfx.create_animated(params)
             params = {
-                "filePath"  : "resources/gui/select_human.png",
-                "size"      : (200, 200),
-                "position"  : (self.W / 2, 0)
+                "filePath": "resources/characters/vieux idle atlas.png",
+                "position": (self.W/3, 0),
+                "size"    : (self.W/4, self.H/4),
+                "spriteBox": (4, 1, 100, 150),
+                "startIndex": 0,
+                "endIndex": 3,
+                "frameDuration": 0.2
             }
-            hum = Gfx.create_fixed(params)
+            hum = Gfx.create_animated(params)
+
+
+            catclr = self.__cat_color()
             params = {
-                "filePath"  : "resources/gui/select_cat.png",
-                "size"      : (200, 200),
-                "position"  : (self.W / 2, 0)
+                "filePath": f"resources/characters/atlas chat idle{catclr}.png",
+                "position": (self.W/3, 0),
+                "size"    : (self.W/6, self.H/6),
+                "spriteBox": (4, 1, 147, 90),
+                "startIndex": 0,
+                "endIndex": 3,
+                "frameDuration": 0.2,
+                "flipH" : True
             }
-            cat = Gfx.create_fixed(params)
+            cat = Gfx.create_animated(params)
+
             self.ctrls[ctrl] = {
                 'gfx'   : (hum, cat, spr),
                 'ready' : False,
                 'choice': "",
-                'rest_ctrl' : True
+                'rest_ctrl' : True,
+                'cat_color': catclr
             }
 
     def __remove_player(self, ctrl):
@@ -69,7 +103,7 @@ class Page2Select:
         if ctrl in self.ctrls:
             player = self.ctrls[ctrl]
             if not player['ready']:
-                if player['choice'] == "":
+                if player['choice'] == "" and self.__how_many_human() < 1:
                     player['choice'] = "human"
                 elif player['choice'] == "cat":
                     player['choice'] = ""
@@ -97,8 +131,9 @@ class Page2Select:
         self.window.set_viewport(0, self.W, 0, self.H)
         self.ctrls = {}
         params = {
-            "filePath" : "resources/backgrounds/select_back.png",
+            "filePath" : "resources/backgrounds/fond maison.png",
             "size" : (self.W, self.H),
+            "filterColor": (255,255,255,128),
             "position" : (self.W/2, self.H/2)
         }
         self.gfx =Gfx.create_fixed(params)
@@ -110,15 +145,15 @@ class Page2Select:
         self.refresh()
 
     def on_update(self, deltaTime):
-        y = 3 * self.H / 4
+        y = self.H * 0.7
         for ctrl in self.ctrls:
-            x = self.W / 2
+            x = self.W / 2.3
             player = self.ctrls[ctrl]
             # Choose x
             if player['choice'] == 'human':
-                x -= self.W / 4
+                x -= self.W / 3.3
             elif player['choice'] == 'cat':
-                x += self.W / 4
+                x += self.W / 3.3
             # choose color
             clr = (255, 255, 255)
             if player['ready']:
@@ -127,9 +162,10 @@ class Page2Select:
             for gfx in player['gfx']:
                 gfx.center_x = x
                 gfx.center_y = y
-                gfx.color    = clr
+                gfx.update_animation(deltaTime)
+            player['gfx'][2].color = clr
             player['gfx'][2].center_y -= 100
-            y -= 200
+            y -= self.H/4
 
     def draw(self):
         self.gfx.draw()
