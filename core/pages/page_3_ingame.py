@@ -49,7 +49,6 @@ class Page3InGame:
                         x = human_start[0] + (random() - 0.5) * human_start[2]
                         y = human_start[1]
                         p = Human(ctrl, x0=x, y0=y, ratio=self.map.ratio)
-                        p.anger_level = 100
                     elif args[ctrl]['choice'] == "cat":
                         x = cat_start[0] + (random() - 0.5) * cat_start[2]
                         y = cat_start[1]
@@ -80,6 +79,8 @@ class Page3InGame:
             # If true, the related item is highlighted
             self.map.process_player(p, deltaTime)
 
+
+
         self.map.ia.update(deltaTime)
         self.looseTimer.update(deltaTime)
 
@@ -101,26 +102,26 @@ class Page3InGame:
     def onKeyEvent(self, key, isPressed):
         p = self.__find_player(Constants.KEYBOARD_CTRL)
         if p is not None:
-            if key == arcade.key.LEFT or key == arcade.key.Q:
+            if key == arcade.key.A:
+                p.set_anim1()
+            elif key == arcade.key.Z:
+                p.set_anim2()
+            elif key == arcade.key.E:
+                p.set_anim3()
+            if key == arcade.key.LEFT:
                 p.move_left(isPressed)
-            elif key == arcade.key.RIGHT or key == arcade.key.D:
+            elif key == arcade.key.RIGHT:
                 p.move_right(isPressed)
             elif not isPressed and key == arcade.key.SPACE:
                 #other interactive
                 if not processStairsAction(self.map.stairs, p):
                     notifyQTEInteraction(self.map.qte, p,self.map.ia)
 
-        # if key == arcade.key.P and isPressed:
-        #     self.people[0].set_purge_anim()
-        # if key == arcade.key.E and isPressed:
-        #     self.people[0].set_eat_anim()
-
-
-
 
     def onButtonEvent(self, gamepadNum, buttonName, isPressed):
         p = self.__find_player(gamepadNum)
         if p is not None:
+
             if not isPressed:
                 #other interactive
                 if not processStairsAction(self.map.stairs, p):

@@ -42,21 +42,20 @@ class Page2Select:
                     if (go and self.__how_many_human() >= 1 and len(self.ctrls) >= 2) or Constants.DEBUG:
                         self.process.selectPage(3, self.ctrls)
         elif len(self.ctrls) < 3:
-            id = 0
-            if ctrl == Constants.KEYBOARD_CTRL:
-                id = 2
-            elif ctrl == Constants.MOUSE_CTRL:
-                id = 1
             params = {
-                "filePath"  : "resources/gui/controllers.png",
-                "size"      : (self.W/8, self.H/8),
-                "position"  : (self.W / 3, 0),
-                "spriteBox" : (1, 3, 200, 100),
-                "startIndex": id,
-                "endIndex"  : id,
-                "filterColor" : (255,255,255,128)
+                "filePath": "resources/gui/manette.png",
+                "size": (self.W / 8, self.H / 8),
+                "position": (self.W / 3, 0),
+                "filterColor": (255, 255, 255, 160)
             }
-            spr = Gfx.create_animated(params)
+            if ctrl == Constants.KEYBOARD_CTRL:
+                params = {
+                    "filePath": "resources/gui/clavier.png",
+                    "size": (self.W / 8, self.H / 8),
+                    "position": (self.W / 3, 0),
+                    "filterColor": (255, 255, 255, 160)
+                }
+            spr = Gfx.create_fixed(params)
             params = {
                 "filePath": "resources/characters/vieux idle atlas.png",
                 "position": (self.W/3, 0),
@@ -183,9 +182,9 @@ class Page2Select:
                 self.__add_player(Constants.KEYBOARD_CTRL)
             elif key == arcade.key.DELETE or key == arcade.key.BACKSPACE:
                 self.__remove_player(Constants.KEYBOARD_CTRL)
-            elif key == arcade.key.LEFT or key == arcade.key.Q:
+            elif key == arcade.key.LEFT:
                 self.__change_player_left(Constants.KEYBOARD_CTRL)
-            elif key == arcade.key.RIGHT or key == arcade.key.D:
+            elif key == arcade.key.RIGHT:
                 self.__change_player_right(Constants.KEYBOARD_CTRL)
 
     def onButtonEvent(self, gamepadNum, buttonName, isPressed):

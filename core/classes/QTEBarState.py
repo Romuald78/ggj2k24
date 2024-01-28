@@ -1,6 +1,7 @@
 
 #represent one QTE
 class QTEBarState:
+
     def __init__(self, x, y,item, timeoutSecond, minProgress, maxProgress,type):
         self.x = x
         self.y = y
@@ -14,4 +15,7 @@ class QTEBarState:
         self.maxProgress = maxProgress
         self.currentPlayer = None
         self.type = type
+
+        # cooldown
+        self.timer = 0
 

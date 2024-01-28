@@ -8,6 +8,7 @@ from .pages.page_0_intro import Page0Intro
 from .pages.page_1_splash import Page1Splash
 from .pages.page_2_select import Page2Select
 from .pages.page_3_ingame import Page3InGame
+from .pages.page_4_end import Page4End
 from .utils.utils import Text
 
 
@@ -36,6 +37,7 @@ class Process:
         # Add all pages
         self.pages = []
         # Instanciate all pages
+        self.pages.append(Page4End   (self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.window, self))
         self.pages.append(Page0Intro (self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.window, self))
         self.pages.append(Page1Splash(self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.window, self))
         self.pages.append(Page2Select(self.SCREEN_WIDTH, self.SCREEN_HEIGHT, self.window, self))

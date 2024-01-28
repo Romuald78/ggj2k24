@@ -5,18 +5,15 @@ from core.utils.utils import Gfx
 
 class Cat(Person):
 
-    def set_normal_anim(self):
-        self.free()
+    def set_anim1(self):
         self._eating = False
         self._purging = False
 
-    def set_eat_anim(self):
-        self.freeze()
+    def set_anim2(self):
         self._eating = True
         self._purging = False
 
-    def set_purge_anim(self):
-        self.freeze()
+    def set_anim3(self):
         self._eating  = False
         self._purging = True
 
@@ -106,13 +103,13 @@ class Cat(Person):
                 self._purgegfx_L.center_x = self._x
                 self._purgegfx_L.center_y = self._y + offset
                 if self._purgegfx_L.cur_frame_idx >= len(self._purgegfx_L.frames) - 1:
-                    self.set_normal_anim()
+                    self.set_anim1()
             else:
                 self._purgegfx_R.update_animation(deltaTime)
                 self._purgegfx_R.center_x = self._x
                 self._purgegfx_R.center_y = self._y + offset
                 if self._purgegfx_R.cur_frame_idx >= len(self._purgegfx_R.frames) - 1:
-                    self.set_normal_anim()
+                    self.set_anim1()
 
         if self._eating:
             if self._lastdir_left:
