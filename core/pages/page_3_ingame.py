@@ -59,7 +59,7 @@ class Page3InGame:
                     # add person to the people list
                     self.people.append(p)
 
-        self.looseTimer = LooseTimer(60*2,self.W,self.H,self.map.ia)
+        self.looseTimer = LooseTimer(60*2,self.W,self.H,self.map.ia, proc=self.process)
 
 
     def setup(self):
@@ -138,7 +138,13 @@ class Page3InGame:
         p = self.__find_player(gamepadNum)
         if p is not None:
 
-            if not isPressed:
+            if buttonName == "B":
+                p.set_anim1()
+            elif buttonName == "X":
+                p.set_anim2()
+            elif buttonName == "Y":
+                p.set_anim3()
+            elif not isPressed:
                 #other interactive
                 if not processStairsAction(self.map.stairs, p):
                     notifyQTEInteraction(self.map.qte,self.people, p, None)

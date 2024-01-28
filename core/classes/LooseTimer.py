@@ -1,7 +1,8 @@
 import arcade
 
 class LooseTimer:
-    def __init__(self, time, screen_width, screen_height,ia, font_size=20, outline_width=2):
+    def __init__(self, time, screen_width, screen_height,ia, font_size=20, outline_width=2, proc=None):
+        self.process = proc
         self.time = time  # Total time in seconds
         self.screen_width = screen_width
         self.screen_height = screen_height
@@ -27,7 +28,8 @@ class LooseTimer:
         if self.time < 0:
             self.time = 0
             self.ended = True
-            # [TODO] End game display an image in the middle (image is half the screen in size)
+            if self.process is not None:
+                self.process.selectPage(4)
 
         # Update the displayed time only if it has changed (every second)
         current_time = int(self.time)
