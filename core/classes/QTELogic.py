@@ -21,15 +21,23 @@ class QTEBarState:
         self.maxProgress = maxProgress
         """
 
+def addAngerOnHuman(people, anger):
+    for person in people:
+        if person.type == "human":
+            person.anger_level += anger
+            if person.anger_level >= 100:
+                person.anger_level = 100
+            elif person.anger_level < 0:
+                person.anger_level = 0
 
 # first interaction start the QTE then the bar apears and the player has to press the button once it either fails or succeeds then QTE is over
-def notifyQTEInteraction(qteSTates, player,ia):
+def notifyQTEInteraction(qteSTates, people, player,ia):
     for qte in qteSTates:
         if Collisions.AABBs((player.left, player.top),
                             (player.right, player.bottom),
                             (qte.item.left, qte.item.top),
                             (qte.item.right, qte.item.bottom)):
-            if qte.type==player.type:
+            if qte.type==player.type and qte.countdownSec <= 0 :
                 if qte.active == False:
                     # update the state
                     qte.active = True
@@ -42,16 +50,20 @@ def notifyQTEInteraction(qteSTates, player,ia):
                     # check if the player succeded
                     if qte.minProgress <= qte.currentBarProgress <= qte.maxProgress:
                         print("QTE success")
+                        addAngerOnHuman(people, 10 if player.type == "human" else -1)
                         if(ia is not None):
                             ia.pushHumanSuccessMessage(player,qte)
                         player.free()
                         qte.active = False
+                        qte.countdownSec = 60
                     else:
                         print("QTE failed - missed")
+                        addAngerOnHuman(people, -10 if player.type == "human" else 1)
                         if(ia is not None):
                             ia.pushHumanFailMessage(player,qte)
                         player.free()
                         qte.active = False
+                        qte.countdownSec = 15
                 return True
     return False
 
@@ -80,6 +92,11 @@ def qteBuilder(qteStates, x, y,itm, qteType,type):
     else:
         print(f"Unknown qteType: {qteType}")
 
+def qteUpdate(qteSTates,deltaTime):
+    for qte in qteSTates:
+        if qte.countdownSec > 0:
+            qte.countdownSec -= deltaTime
+
 
 def qteDraw(qteSTates,ia):
     for qte in qteSTates:
@@ -98,6 +115,7 @@ def qteDraw(qteSTates,ia):
                     ia.pushHumanFailMessage(None, qte)
                 qte.currentPlayer.free()
                 qte.active = False
+                qte.countdownSec = 15
 
             BAR_X = qte.x
             BAR_Y = qte.y

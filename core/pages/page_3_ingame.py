@@ -2,10 +2,11 @@ from random import random
 
 import arcade
 
+from core.classes.AngerBar import drawAngerBar
 from core.classes.LooseTimer import LooseTimer
 from core.classes.people.cat import Cat
 from core.classes.people.human import Human
-from core.classes.QTELogic import notifyQTEInteraction, qteDraw
+from core.classes.QTELogic import notifyQTEInteraction, qteDraw, qteUpdate
 from core.classes.StairsLogic import processStairsAction
 from core.classes.constants import Constants
 from core.classes.map import Map
@@ -49,6 +50,7 @@ class Page3InGame:
                         x = human_start[0] + (random() - 0.5) * human_start[2]
                         y = human_start[1]
                         p = Human(ctrl, x0=x, y0=y, ratio=self.map.ratio)
+
                     elif args[ctrl]['choice'] == "cat":
                         x = cat_start[0] + (random() - 0.5) * cat_start[2]
                         y = cat_start[1]
@@ -83,6 +85,7 @@ class Page3InGame:
 
         self.map.ia.update(deltaTime)
         self.looseTimer.update(deltaTime)
+        qteUpdate(self.map.qte,deltaTime)
 
     def draw(self):
         # Background
@@ -94,10 +97,23 @@ class Page3InGame:
             p.draw()
         # Draw front items
         self.map.draw_items("front")
-        # TODO
         qteDraw(self.map.qte,self.map.ia)
         self.map.ia.draw()
         self.looseTimer.draw()
+
+        # Compute the mean anger level of all people
+        if self.people:  # Ensure there are people to avoid division by zero
+            mean_anger = 0
+            for p in self.people:
+                if p.type == "human":
+                    mean_anger = p.anger_level
+            mean_anger = mean_anger / len(self.people)
+            if(mean_anger ==0):
+                print("human win")
+                #TODO: human win
+            drawAngerBar(self.W, self.H,mean_anger/100)  # Use the mean anger to draw the anger bar
+        else:
+            drawAngerBar(self.W, self.H,0)  # If there are no people, draw an empty anger bar
 
     def onKeyEvent(self, key, isPressed):
         p = self.__find_player(Constants.KEYBOARD_CTRL)
@@ -115,7 +131,7 @@ class Page3InGame:
             elif not isPressed and key == arcade.key.SPACE:
                 #other interactive
                 if not processStairsAction(self.map.stairs, p):
-                    notifyQTEInteraction(self.map.qte, p,self.map.ia)
+                    notifyQTEInteraction(self.map.qte,self.people, p,self.map.ia)
 
 
     def onButtonEvent(self, gamepadNum, buttonName, isPressed):
@@ -125,11 +141,8 @@ class Page3InGame:
             if not isPressed:
                 #other interactive
                 if not processStairsAction(self.map.stairs, p):
-                    # TODO : fixing the line below creates a bug :
-                    #  cats cannot move anymore
-                    #notifyQTEInteraction(self.map.qte, p, )
-                    #notifyQTEInteraction(self.map.qte, p, self.map.ia)
-                    pass
+                    notifyQTEInteraction(self.map.qte,self.people, p, None)
+                    #notifyQTEInteraction(self.map.qte,self.people, p,self.map.ia)
 
     def onAxisEvent(self, gamepadNum, axisName, analogValue):
         if axisName == "X":

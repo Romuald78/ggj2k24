@@ -25,7 +25,7 @@ class Human(Person):
         self.sweeping = False
         self.washing  = False
 
-        self.anger_level = 0
+        self.anger_level = 50 #start at 50% anger
         self.anger_time  = 0
         params = {
             "filePath": "resources/characters/vieux idle atlas.png",
