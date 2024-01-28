@@ -4,6 +4,7 @@ import arcade
 import json
 
 from core.classes.People import Person, Human, Cat
+from core.classes.Pigeon import Pigeon
 from core.classes.QTELogic import notifyQTEInteraction, qteDraw
 from core.classes.StairsLogic import processStairsAction, processStairsHighlight
 from core.classes.constants import Constants
@@ -60,13 +61,15 @@ class Page3InGame:
         self.refresh()
 
     def on_update(self, deltaTime):
+        # players
         for p in self.people:
             p.update(deltaTime)
             # This method checks collisions with walls
             # if a collision occurs, the player is moved correctly.
-            # [TODO] This method also checks if the player can interact with items
+            # This method also checks if the player can interact with items
             # If true, the related item is highlighted
-            self.map.process_player(p)
+            self.map.process_player(p, deltaTime)
+
             processStairsHighlight(self.map.stairs, p)
 
     def draw(self):
@@ -79,7 +82,6 @@ class Page3InGame:
             p.draw()
         # Draw front items
         self.map.draw_items("front")
-
         # TODO
         qteDraw(self.map.qte)
 
@@ -98,9 +100,11 @@ class Page3InGame:
 
     def onButtonEvent(self, gamepadNum, buttonName, isPressed):
         p = self.__find_player(gamepadNum)
-        if p is not None and isPressed:
-            #other interactive
-            processStairsAction(self.map.stairs, p)
+        if p is not None:
+            if not isPressed:
+                #other interactive
+                if not processStairsAction(self.map.stairs, p):
+                    notifyQTEInteraction(self.map.qte, p)
 
     def onAxisEvent(self, gamepadNum, axisName, analogValue):
         if axisName == "X":
@@ -116,11 +120,11 @@ class Page3InGame:
                     p.move_left (False)
                     p.move_right(False)
 
-
     def onMouseMotionEvent(self, x, y, dx, dy):
-        p = self.__find_player(Constants.MOUSE_CTRL)
-        if p is not None:
-            print(p)
+        pass
+        # p = self.__find_player(Constants.MOUSE_CTRL)
+        # if p is not None:
+        #     print(p)
 
     def onMouseButtonEvent(self, x, y, buttonNum, isPressed):
         if Constants.DEBUG and isPressed:

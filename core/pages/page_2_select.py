@@ -166,14 +166,11 @@ class Page2Select:
                     if analogValue <= -0.5:
                         self.__change_player_left(gamepadNum)
                         self.ctrls[gamepadNum]['rest_ctrl'] = False
-                        print(f"LEFT {analogValue}")
                     elif analogValue >= 0.5:
                         self.__change_player_right(gamepadNum)
                         self.ctrls[gamepadNum]['rest_ctrl'] = False
-                        print(f"RIGHT {analogValue}")
                 else:
                     if abs(analogValue) <= 0.2:
-                        print(f"NONE {analogValue}")
                         self.ctrls[gamepadNum]['rest_ctrl'] = True
 
     def onMouseMotionEvent(self, x, y, dx, dy):

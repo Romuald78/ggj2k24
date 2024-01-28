@@ -2,14 +2,16 @@ import arcade
 
 from core.classes.People import Human, Cat
 from core.classes.constants import Constants
+from core.classes.interface_pos import InterfacePosition
 from core.utils.utils import Gfx
 
 
-class Item:
+class Item(InterfacePosition):
+
+    def getPosition(self):
+        return (self.x, self.y)
 
     def __init__(self, name, x0=0, y0=0, ratio=1.0, init_type="human"):
-        if name == "tele":
-            print(name)
         self.debugname = name
         f1 = f"{name}.png"
         f2 = f"{name} contour.png"
@@ -28,6 +30,8 @@ class Item:
             self.__gfx2 = Gfx.create_fixed(params)
         except Exception as ex:
             self.__gfx2 = None
+            print(f"[WARNING] impossible to find highlight image for {name}")
+
         self.__gfx.scale      = ratio
         self.__gfx.center_y  += self.__gfx.height / 2
         if self.__gfx2 is not None:
@@ -43,9 +47,12 @@ class Item:
             self.__gfx2.color = clr
 
     def can_interact(self, player):
+        if self.__player_type == "both":
+            return True
         h = type(player) is Human and self.__player_type == "human"
         c = type(player) is Cat and self.__player_type == "cat"
         return h or c
+
 
     @property
     def x(self):

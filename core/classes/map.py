@@ -1,6 +1,9 @@
 import json
 
+from core.classes.People import Human
+from core.classes.Pigeon import Pigeon
 from core.classes.QTELogic import qteBuilder
+from core.classes.interface_pos import getNearestElement
 from core.classes.item import Item
 from core.classes.QTEBarState import QTEBarState
 from core.classes.constants import Constants
@@ -22,6 +25,8 @@ class Map:
         self.__human_start = {}
         self.__cat_start = {}
         self.__ratio = 1.0
+        # pigeon
+        self.pigeon = None
 
         # get config
         fp = open(cfg_filepath)
@@ -103,6 +108,11 @@ class Map:
         self.__human_start = (hx, hy, hr)
         self.__cat_start = (cx, cy, cr)
 
+        # Add pigeon
+        x = self.W * 0.846
+        y = self.H * 0.320
+        self.pigeon = Pigeon(x, y, self.ratio)
+
     @property
     def ratio(self):
         return self.__ratio
@@ -115,7 +125,34 @@ class Map:
     def cat_start_pix(self):
         return self.__cat_start
 
-    def process_player(self, p):
+    def getNearestActivity(self, player):
+        clr = (255, 240, 240, 255)
+        if type(player) is Human:
+            clr = (240, 255, 240, 255)
+        all = []
+        for layer in self.items:
+            all += self.items[layer]
+            for itm in self.items[layer]:
+                itm.highlight(False)
+
+        all.append(self.pigeon)
+        self.pigeon.highlight(False)
+
+        all = list(filter(lambda x:x.can_interact(player), all))
+        itm = getNearestElement(all, player)
+        margin  = (itm.width * Constants.ITEM_HITBOX_COEF) / 2
+        margin2 = (player.width   * Constants.ITEM_HITBOX_COEF) / 2
+        if Collisions.AABBs( (player.left  + margin2 , player.top),
+                             (player.right - margin2 , player.bottom),
+                             (itm.left  + margin, itm.top),
+                             (itm.right - margin, itm.bottom) ):
+            itm.highlight(True, clr)
+        return itm
+
+    def process_player(self, p, deltaTime):
+        # pigeon activity
+        self.pigeon.update(deltaTime)
+
         # Block player according to wall positions
         for wall in self.walls:
 
@@ -131,17 +168,7 @@ class Map:
                 p.shift(unionx, 0)
 
         # Highlight items according to player type and position
-        for layer in self.items:
-            for itm in self.items[layer]:
-                if itm.can_interact(p):
-                    itm.highlight(False)
-                    margin  = (itm.width * Constants.ITEM_HITBOX_COEF) / 2
-                    margin2 = (p.width   * Constants.ITEM_HITBOX_COEF) / 2
-                    if Collisions.AABBs( (p.left  + margin2 , p.top),
-                                         (p.right - margin2 , p.bottom),
-                                         (itm.left  + margin, itm.top),
-                                         (itm.right - margin, itm.bottom) ):
-                        itm.highlight(True)
+        itm = self.getNearestActivity(p)
 
     def draw_background(self):
         self.backhouse.draw()
@@ -154,3 +181,5 @@ class Map:
     def draw_items(self, layer):
         for itm in self.items[layer]:
             itm.draw()
+        if layer == "front":
+            self.pigeon.draw()

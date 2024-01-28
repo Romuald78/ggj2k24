@@ -1,5 +1,12 @@
 import arcade
-class Stairs:
+
+from core.classes.interface_pos import InterfacePosition
+
+
+class Stairs(InterfacePosition):
+
+    def getPosition(self):
+        return (self.x, self.y)
 
     def __init__(self, x0, y0, w0, h0,id,dest_id):
         self.x = x0

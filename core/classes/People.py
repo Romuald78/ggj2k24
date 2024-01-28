@@ -114,22 +114,28 @@ class Person:
 
             )
         # STATIC DISPLAY
+        ref = None
         if self._move_left == self._move_right:
             if self._lastdir_left:
                 if self._idle_L is not None:
-                    self._idle_L.draw()
+                    ref = self._idle_L
             else:
                 if self._idle_R is not None:
-                    self._idle_R.draw()
+                    ref = self._idle_R
         # MOVE LEFT DISPLAY
         elif self._move_left:
             if self._move_L is not None:
-                self._move_L.draw()
+                ref = self._move_L
         # MOVE RIGHT DISPLAY
         else:
             if self._move_R is not None:
-                self._move_R.draw()
-
+                ref = self._move_R
+        if ref is not None:
+            # apply anger color
+            ref.color = (255, 255, 255)
+            if False:
+                ref.color = (255, 160, 160)
+            ref.draw()
 
 class Human(Person):
 
