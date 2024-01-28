@@ -37,8 +37,8 @@ def notifyQTEInteraction(qteSTates, people, player,ia):
                             (player.right, player.bottom),
                             (qte.item.left, qte.item.top),
                             (qte.item.right, qte.item.bottom)):
-            if qte.type==player.type:
-                if qte.active == False and qte.countdownSec <= 0:
+            if qte.type==player.type and qte.countdownSec <= 0 :
+                if qte.active == False:
                     # update the state
                     qte.active = True
                     qte.currentPlayer = player
