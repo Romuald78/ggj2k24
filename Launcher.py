@@ -288,7 +288,7 @@ def main():
     if "-window" in sys.argv:
         coef = 0.66
         full = False
-    game = MyGame(int(1000 * coef), int(700 * coef), 1.0, TITLE)
+    game = MyGame(int(1000 * coef), int(1000/(16/9) * coef), 1.0, TITLE)
     game.set_fullscreen(full)
     game.setup()
     arcade.run()

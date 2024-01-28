@@ -47,7 +47,6 @@ class IAState:
         # Check if it's time to change the message
         if self.elapsed_time >= self.message_duration:
             self.pushMessageInternal()
-            self.elapsed_time = 0.0  # Reset elapsed time for the new message
 
         # Move up effect for each Text object
         for text_object in self.text_objects:
@@ -75,6 +74,7 @@ class IAState:
     def pushMessageInternal(self):
         # Clear the previous Text objects
         self.text_objects.clear()
+        self.elapsed_time = 0.0  # Reset elapsed time for the new message
 
         if len(self.messages) == 0:
             return

@@ -4,6 +4,7 @@ import arcade
 import json
 
 from core.classes.IALogic import iaDrawStep
+from core.classes.LooseTimer import LooseTimer
 from core.classes.People import Person, Human, Cat
 from core.classes.QTELogic import notifyQTEInteraction, qteDraw
 from core.classes.StairsLogic import processStairsAction
@@ -57,10 +58,16 @@ class Page3InGame:
                     # add person to the people list
                     self.people.append(p)
 
+        self.looseTimer = LooseTimer(60*2,self.W,self.H,self.map.ia)
+
     def setup(self):
         self.refresh()
 
     def on_update(self, deltaTime):
+        if(self.looseTimer.isOver()):
+            self.process("loose")
+            return
+
         for p in self.people:
             p.update(deltaTime)
             # This method checks collisions with walls
@@ -69,6 +76,7 @@ class Page3InGame:
             # If true, the related item is highlighted
             self.map.process_player(p)
         self.map.ia.update(deltaTime)
+        self.looseTimer.update(deltaTime)
 
     def draw(self):
         # Background
@@ -84,6 +92,7 @@ class Page3InGame:
         # TODO
         qteDraw(self.map.qte,self.map.ia)
         self.map.ia.draw()
+        self.looseTimer.draw()
 
     def onKeyEvent(self, key, isPressed):
         p = self.__find_player(Constants.KEYBOARD_CTRL)
