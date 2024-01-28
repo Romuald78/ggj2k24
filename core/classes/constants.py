@@ -23,3 +23,4 @@ class Constants:
 
     # HUMAN
     ANGER_MAX_TIME = 10
+    MAX_ANGER      = 100
