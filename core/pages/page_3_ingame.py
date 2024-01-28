@@ -120,8 +120,12 @@ class Page3InGame:
             if not isPressed:
                 #other interactive
                 if not processStairsAction(self.map.stairs, p):
-                    notifyQTEInteraction(self.map.qte, p)
-
+                    # TODO : fixing the line below creates a bug :
+                    #  cats cannot move anymore
+                    #notifyQTEInteraction(self.map.qte, p, )
+                    #notifyQTEInteraction(self.map.qte, p, self.map.ia)
+                    pass
+                
     def onAxisEvent(self, gamepadNum, axisName, analogValue):
         if axisName == "X":
             p = self.__find_player(gamepadNum)
