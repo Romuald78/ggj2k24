@@ -1,3 +1,5 @@
+import random
+
 import arcade
 
 from core.classes.constants import Constants
@@ -23,6 +25,8 @@ class Person:
         self._move_L = None
         self._move_R = None
         self.type = type
+
+        self.color = (255,255,255)
 
     @property
     def x(self):
@@ -132,16 +136,16 @@ class Person:
             if self._move_R is not None:
                 ref = self._move_R
         if ref is not None:
-            # apply anger color
-            ref.color = (255, 255, 255)
-            if False:
-                ref.color = (255, 160, 160)
+            ref.color = self.color
             ref.draw()
+
 
 class Human(Person):
 
     def __init__(self, ctrl, x0=0, y0=0, ratio=1.0):
         super().__init__(ctrl, Constants.HUMAN_SPEED, x0, y0,type="human")
+        self.anger_level = 0
+        self.anger_time  = 0
         params = {
             "filePath": "resources/characters/vieux idle atlas.png",
             "position": (x0, y0),
@@ -175,6 +179,29 @@ class Human(Person):
         # update _w _h
         self._w = self._idle_L.width
         self._h = self._idle_L.height
+
+    def update(self, deltaTime):
+        super().update(deltaTime)
+        self.color = (255, 255, 255)
+        if self.anger_time > 0:
+            self.anger_time -= deltaTime
+            gb = random.randint(78, 128)
+            r  = random.randint(205, 255)
+            self.color = (255, gb, gb)
+
+        if self.anger_level >= 100:
+            self.anger_time = Constants.ANGER_MAX_TIME
+            self.anger_level = 0
+
+    def is_angry(self):
+        return self.anger_time > 0
+
+    @property
+    def anger(self):
+        if self.anger_time > 0:
+            return 100
+        else:
+            return min(self.anger_level, 100)
 
 
 class Cat(Person):

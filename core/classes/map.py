@@ -174,7 +174,9 @@ class Map:
                 p.shift(unionx, 0)
 
         # Highlight items according to player type and position
-        itm = self.getNearestActivity(p)
+        # human when anger cannot use anything (so we skip highlights too)
+        if type(p) != Human or not p.is_angry():
+            itm = self.getNearestActivity(p)
 
     def draw_background(self):
         self.backhouse.draw()

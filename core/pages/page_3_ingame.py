@@ -52,6 +52,7 @@ class Page3InGame:
                         x = human_start[0] + (random() - 0.5) * human_start[2]
                         y = human_start[1]
                         p = Human(ctrl, x0=x, y0=y, ratio=self.map.ratio)
+                        p.anger_level = 100
                     elif args[ctrl]['choice'] == "cat":
                         x = cat_start[0] + (random() - 0.5) * cat_start[2]
                         y = cat_start[1]
@@ -62,8 +63,10 @@ class Page3InGame:
 
         self.looseTimer = LooseTimer(60*2,self.W,self.H,self.map.ia)
 
+
     def setup(self):
         self.refresh()
+
 
     def on_update(self, deltaTime):
         # players

@@ -20,3 +20,6 @@ class Constants:
 
     # COLLISIONS
     ITEM_HITBOX_COEF = 0.33
+
+    # HUMAN
+    ANGER_MAX_TIME = 10
