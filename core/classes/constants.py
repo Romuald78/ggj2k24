@@ -6,9 +6,10 @@ class Constants:
     DEBUG = False
 
     # INTRO TIME
-    TIME_GGJ = 8
-    TIME_ARC = 8
-    TIME_RPH = 8
+    TIME_GGJ  = 8
+    TIME_ARC  = 8
+    TIME_RPH  = 8
+    GAME_TIME = 1
 
     # CONTROLLER VALUES
     MOUSE_CTRL    = -2

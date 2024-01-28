@@ -13,13 +13,13 @@ def drawAngerBar(width, height, percentage):
     - background_color: The color of the progress bar background.
     - progress_color: The color of the progress bar fill.
     """
-    x = width/2
+    x = width * 0.43333333333333335
     y = height - 30
     width = 0.2*width
     height = 0.05*height
 
     # Draw the background of the progress bar
-    arcade.draw_rectangle_filled(x, y, width, height, arcade.color.RED)
+    arcade.draw_rectangle_filled(x, y, width, height, (128,128,255, 128))
 
     # Calculate the width of the progress based on the percentage
     progress_width = width * percentage
@@ -27,4 +27,4 @@ def drawAngerBar(width, height, percentage):
     # Draw the progress on top of the background
     # The progress rectangle's right edge is aligned with the background's right edge
     progress_x = x - (width / 2) + (progress_width / 2)  # Adjust the x position based on progress
-    arcade.draw_rectangle_filled(progress_x, y, progress_width, height, arcade.color.BLUE)
+    arcade.draw_rectangle_filled(progress_x, y, progress_width, height, (255,128,128, 128))

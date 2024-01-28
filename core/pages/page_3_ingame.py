@@ -59,7 +59,7 @@ class Page3InGame:
                     # add person to the people list
                     self.people.append(p)
 
-        self.looseTimer = LooseTimer(60*2,self.W,self.H,self.map.ia, proc=self.process)
+        self.looseTimer = LooseTimer(Constants.GAME_TIME,self.W,self.H,self.map.ia, proc=self.process)
 
 
     def setup(self):
@@ -114,7 +114,7 @@ class Page3InGame:
                 if(mean_anger ==0):
                     print("human win")
                     self.looseTimer.end()
-                    #TODO: human win
+                    self.process.selectPage(4, "human")
             drawAngerBar(self.W, self.H,mean_anger/100)  # Use the mean anger to draw the anger bar
         else:
             drawAngerBar(self.W, self.H,0)  # If there are no people, draw an empty anger bar

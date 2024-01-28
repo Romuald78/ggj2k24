@@ -16,7 +16,8 @@ class Page4End:
         self.H = h
         self.process = process
         # fields
-        self.gfx = None
+        self.gfxs   = None
+        self.addgfx = None
 
     def refresh(self, args=None):
         self.window.set_viewport(0, self.W, 0, self.H)
@@ -26,117 +27,71 @@ class Page4End:
             "filterColor": (255,255,255,128),
             "position" : (self.W/2, self.H/2)
         }
-        self.gfx =Gfx.create_fixed(params)
-        self.gfxs = []
+        gfx =Gfx.create_fixed(params)
+        self.gfxs = [gfx, ]
 
 
-        if True: # args is not None:
+        if args is not None:
+
             # string value
-            if True : #args == "human":
+            if args == "human":
                 # HUMAN VICTORY
-
-                # tv
                 params = {
-                    "filePath": "resources/items/atlas tele.png",
-                    "position": (self.W/2, self.H/2),
-                    "spriteBox": (5, 1, 234, 251),
-                    "size" : (self.W/2.5, self.H/2.5),
+                    "filePath": "resources/backgrounds/victory human.png",
+                    "size": (self.W*0.75, self.H*0.75),
+                    "position": (self.W / 2, self.H / 2)
+                }
+                gfx = Gfx.create_fixed(params)
+                self.gfxs.append(gfx)
+                params = {
+                    "filePath": "resources/characters/vieux idle atlas.png",
+                    "position": (self.W/5, self.H/3),
+                    "size": (self.W/3, self.H/3),
+                    "spriteBox": (4, 1, 100, 150),
                     "startIndex": 0,
                     "endIndex": 3,
-                    "frameDuration": 0.1,
-                    "flipH": True
+                    "frameDuration": 0.2
                 }
-                tv = Gfx.create_animated(params)
-                self.gfxs.append(tv)
-                # human
-                params = {
-                    "filePath": "resources/characters/atlas telecommande.png",
-                    "position": (4*self.W/7, self.H/2),
-                    "spriteBox": (4, 1, 113, 300),
-                    "size" : (self.W/2, self.H/2),
-                    "startIndex": 0,
-                    "endIndex": 3,
-                    "frameDuration": 0.25,
-                    "flipH": True
-                }
-                hum = Gfx.create_animated(params)
-                self.gfxs.append(hum)
-                # fauteuil
-                params = {
-                    "filePath": "resources/items/fauteuil.png",
-                    "position": (self.W/3, self.H/3),
-                    "spriteBox": (1, 1, 128, 123),
-                    "size" : (self.W/3, self.H/3),
-                    "startIndex": 0,
-                    "endIndex": 0,
-                    "frameDuration": 0.25,
-                    "flipH": False
-                }
-                fau = Gfx.create_animated(params)
-                self.gfxs.append(fau)
-
-                params = {
-                    "filePath": f"resources/characters/atlas cat vomit.png",
-                    "position": (self.W/2, self.H/5),
-                    "size": (self.W/4, self.H/4),
-                    "spriteBox": (16, 1, 164, 200),
-                    "startIndex": 5,
-                    "endIndex": 5,
-                    "frameDuration": 0.11
-                }
-                chat1 = Gfx.create_animated(params)
-                self.gfxs.append(chat1)
-
-                params = {
-                    "filePath": f"resources/characters/atlas cat eat white.png",
-                    "position": (self.W/1.5, self.H/6.5),
-                    "size": (self.W/8, self.H/8),
-                    "spriteBox": (10, 1, 145, 100),
-                    "startIndex": 2,
-                    "endIndex": 2,
-                    "frameDuration": 0.11
-                }
-                chat2 = Gfx.create_animated(params)
-                chat2.angle = 200
-                self.gfxs.append(chat2)
-
-                params = {
-                    "filePath": f"resources/characters/atlas chat idle orange.png",
-                    "position": (self.W/3.5, self.H/2),
-                    "size": (self.W/8, self.H/8),
-                    "spriteBox": (4, 1, 147, 90),
-                    "startIndex": 1,
-                    "endIndex": 1,
-                    "frameDuration": 0.11
-                }
-                chat3 = Gfx.create_animated(params)
-                self.gfxs.append(chat3)
-
+                self.addgfx = Gfx.create_animated(params)
 
             else:
                 # CAT VICTORY
-                pass
-
+                params = {
+                    "filePath": "resources/backgrounds/victory kitty.png",
+                    "size": (self.W*0.75, self.H*0.75),
+                    "position": (self.W / 2, self.H / 2)
+                }
+                gfx = Gfx.create_fixed(params)
+                self.gfxs.append(gfx)
+                params = {
+                    "filePath": "resources/characters/atlas chat idle orange.png",
+                    "position": (self.W/5, self.H/3),
+                    "size": (self.W/4, self.H/4),
+                    "spriteBox": (4, 1, 147, 90),
+                    "startIndex": 0,
+                    "endIndex": 3,
+                    "frameDuration": 0.2
+                }
+                self.addgfx = Gfx.create_animated(params)
 
 
     def setup(self):
         self.refresh()
 
     def on_update(self, deltaTime):
-        for g in self.gfxs:
-            g.update_animation(deltaTime)
+        self.addgfx.update_animation(deltaTime)
 
     def draw(self):
-        self.gfx.draw()
         for g in self.gfxs:
             g.draw()
+        self.addgfx.draw()
 
     def onKeyEvent(self, key, isPressed):
-        if isPressed and key == arcade.key.SPACE:
+        if (not isPressed) and key == arcade.key.SPACE:
             self.__go_to_splash()
 
     def onButtonEvent(self, gamepadNum, buttonName, isPressed):
-        if isPressed:
+        if not isPressed:
             self.__go_to_splash()
 
     def onAxisEvent(self, gamepadNum, axisName, analogValue):

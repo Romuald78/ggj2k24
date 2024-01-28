@@ -29,7 +29,7 @@ class LooseTimer:
             self.time = 0
             self.ended = True
             if self.process is not None:
-                self.process.selectPage(4)
+                self.process.selectPage(4, "cat")
 
         # Update the displayed time only if it has changed (every second)
         current_time = int(self.time)

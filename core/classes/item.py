@@ -87,6 +87,9 @@ class Item(InterfacePosition):
     def bottom(self):
         return self.y - self.__gfx.height / 2
 
+    def changeAlpha(self, alpha):
+        self.__gfx.alpha = alpha
+
     def draw(self):
         if Constants.DEBUG:
             arcade.draw_rectangle_outline(

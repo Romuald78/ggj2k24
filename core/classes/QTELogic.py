@@ -50,7 +50,7 @@ def notifyQTEInteraction(qteSTates, people, player,ia):
                     # check if the player succeded
                     if qte.minProgress <= qte.currentBarProgress <= qte.maxProgress:
                         print("QTE success")
-                        addAngerOnHuman(people, 10 if player.type == "human" else -1)
+                        addAngerOnHuman(people, -10 if player.type == "human" else 10)
                         if(ia is not None):
                             ia.pushHumanSuccessMessage(player,qte)
                         player.free()
@@ -58,7 +58,7 @@ def notifyQTEInteraction(qteSTates, people, player,ia):
                         qte.countdownSec = 20
                     else:
                         print("QTE failed - missed")
-                        addAngerOnHuman(people, -10 if player.type == "human" else 1)
+                        addAngerOnHuman(people, 1 if player.type == "human" else -1)
                         if(ia is not None):
                             ia.pushHumanFailMessage(player,qte)
                         player.free()
@@ -96,7 +96,9 @@ def qteUpdate(qteSTates,deltaTime):
     for qte in qteSTates:
         if qte.countdownSec > 0:
             qte.countdownSec -= deltaTime
-
+            qte.item.changeAlpha(128)
+        else:
+            qte.item.changeAlpha(255)
 
 def qteDraw(qteSTates,ia):
     for qte in qteSTates:
